@@ -35,7 +35,7 @@ public interface factory2 {
     }
   }
   
-  public static List<Vehicle> create5(Supplier<Vehicle> factory) {
+  public static List<Vehicle> create5(Supplier<? extends Vehicle> factory) {
     return range(0, 5).mapToObj(i -> factory.get()).collect(toList());
   }
   

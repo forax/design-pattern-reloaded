@@ -7,7 +7,7 @@ public interface logger6 {
   public interface Logger {
     public void log(String message);
     
-    public default Logger filter(Predicate<String> filter) {
+    public default Logger filter(Predicate<? super String> filter) {
       // signature Logger → Predicate → Logger
       Objects.requireNonNull(filter);
       return message -> {

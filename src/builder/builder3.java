@@ -20,14 +20,14 @@ public interface builder3 {
   }
   
   public interface Builder {
-    public void register(String name, Supplier<Vehicle> supplier);
+    public void register(String name, Supplier<? extends Vehicle> supplier);
   }
   
   public interface VehicleFactory {
     public Vehicle create(String name);
     
     public static VehicleFactory create(Consumer<Builder> consumer) {
-      HashMap<String, Supplier<Vehicle>> map = new HashMap<>();
+      HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
       consumer.accept((name, supplier) -> map.put(name, supplier));
       return name -> {
         return map.getOrDefault(name,

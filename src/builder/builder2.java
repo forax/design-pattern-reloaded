@@ -19,9 +19,9 @@ public interface builder2 {
   }
   
   public class Builder {
-    private final HashMap<String, Supplier<Vehicle>> map = new HashMap<>();
+    private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
-    public void register(String name, Supplier<Vehicle> supplier) {
+    public void register(String name, Supplier<? extends Vehicle> supplier) {
       map.put(name, supplier);
     }
     

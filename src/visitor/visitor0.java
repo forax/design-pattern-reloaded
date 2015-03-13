@@ -2,17 +2,17 @@ package visitor;
 
 public interface visitor0 {
   public interface Vehicle { 
-    public <R> R accept(Visitor<R> visitor);
+    public <R> R accept(Visitor<? extends R> visitor);
   }
   public class Car implements Vehicle {
     @Override
-    public <R> R accept(Visitor<R> visitor) {
+    public <R> R accept(Visitor<? extends R> visitor) {
       return visitor.visitCar(this);
     }
   }
   public class Moto implements Vehicle {
     @Override
-    public <R> R accept(Visitor<R> visitor) {
+    public <R> R accept(Visitor<? extends R> visitor) {
       return visitor.visitMoto(this);
     }
   }

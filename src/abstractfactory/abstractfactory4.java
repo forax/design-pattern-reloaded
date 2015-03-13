@@ -19,9 +19,9 @@ public interface abstractfactory4 {
   }
   
   public class VehicleFactory {
-    private final HashMap<String, Supplier<Vehicle>> map = new HashMap<>();
+    private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
-    public void register(String name, Supplier<Vehicle> supplier) {
+    public void register(String name, Supplier<? extends Vehicle> supplier) {
       map.put(name, supplier);
     }
     public Vehicle create(String name) {

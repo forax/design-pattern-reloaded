@@ -9,9 +9,9 @@ public interface visitor4 {
   public class Moto implements Vehicle { /* empty */ }
   
   public class Visitor<R> {
-    private final HashMap<Class<?>, Function<Object, R>> map = new HashMap<>();
+    private final HashMap<Class<?>, Function<Object, ? extends R>> map = new HashMap<>();
     
-    public <T> Visitor<R> when(Class<T> type, Function<T, R> fun) {
+    public <T> Visitor<R> when(Class<? extends T> type, Function<? super T, ? extends R> fun) {
       map.put(type, obj -> fun.apply(type.cast(obj)));
       return this;
     }

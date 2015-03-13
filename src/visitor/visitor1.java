@@ -8,7 +8,7 @@ public interface visitor1 {
   public class Moto implements Vehicle { /* empty */ }
   
   public class Visitor<R> {
-    public <T> Visitor<R> when(Class<T> type, Function<T, R> fun) {
+    public <T> Visitor<R> when(Class<? extends T> type, Function<? super T, ? extends R> fun) {
       throw new UnsupportedOperationException("TODO");
     }
     public R call(Object receiver) {

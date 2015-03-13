@@ -18,7 +18,7 @@ public interface builder1 {
   }
   
   public class Builder {
-    public void register(String name, Supplier<Vehicle> supplier) {
+    public void register(String name, Supplier<? extends Vehicle> supplier) {
       throw new UnsupportedOperationException("TODO");
     }
     

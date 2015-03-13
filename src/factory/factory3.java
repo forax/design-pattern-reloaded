@@ -35,11 +35,11 @@ public interface factory3 {
     }
   }
   
-  public static <T, R> Supplier<R> partial(Function<T, R> function, T value) {
+  public static <T, R> Supplier<R> partial(Function<? super T, ? extends R> function, T value) {
     return () -> function.apply(value);
   }
   
-  public static List<Vehicle> create5(Supplier<Vehicle> factory) {
+  public static List<Vehicle> create5(Supplier<? extends Vehicle> factory) {
     return Collections.nCopies(5, factory.get());
   }
   
