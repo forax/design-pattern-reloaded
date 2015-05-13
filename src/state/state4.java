@@ -37,7 +37,7 @@ public interface state4 {
     
     public static Logger logger(Consumer<? super String> consumer) {
       return new Logger(consumer, consumer,
-          normal -> new Logger(consumer, msg -> { /* empty */ }, identity(), msg -> normal),
+          normal -> new Logger(consumer, msg -> { /* empty */ }, identity(), it -> normal),
           identity());
     }
   }
