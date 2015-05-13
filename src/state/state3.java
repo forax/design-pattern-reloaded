@@ -20,15 +20,17 @@ public interface state3 {
         return this;
       }
       @Override
-      default Logger all() {
-        return msg -> error(msg);
+      default Logger normal() {
+        //return msg -> error(msg);
+        return this::error;
       }
     }
     
     default Logger quiet() {
-      return (QuietLogger)msg -> error(msg);
+      //return (QuietLogger)msg -> error(msg);
+      return (QuietLogger)this::error;
     }
-    default Logger all() {
+    default Logger normal() {
       return this;
     }
   }
@@ -42,7 +44,7 @@ public interface state3 {
     quiet.error("ERROR");
     quiet.warning("WARNING");
     
-    Logger logger2 = quiet.all();
+    Logger logger2 = quiet.normal();
     logger2.error("ERROR");
     logger2.warning("WARNING");
   }

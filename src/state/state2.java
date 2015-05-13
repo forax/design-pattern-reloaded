@@ -10,7 +10,7 @@ public interface state2 {
     public void warning(String message);
     
     Logger quiet();
-    Logger all();
+    Logger normal();
   }
   
   class Loggers {
@@ -49,13 +49,13 @@ public interface state2 {
           return this;
         }
         @Override
-        public Logger all() {
-          return new DefaultLogger(DefaultLogger.this.printer);
+        public Logger normal() {
+          return DefaultLogger.this;
         }
       };
     }
     @Override
-    public Logger all() {
+    public Logger normal() {
       return this;
     }
   }
@@ -74,7 +74,7 @@ public interface state2 {
     quiet.error("ERROR");
     quiet.warning("WARNING");
     
-    Logger logger2 = quiet.all();
+    Logger logger2 = quiet.normal();
     logger2.error("ERROR");
     logger2.warning("WARNING");
   }

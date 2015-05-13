@@ -1,40 +1,49 @@
 package state;
 
+import static java.util.function.Function.identity;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public interface state4 {
-  interface Logger {
+  class Logger {
     enum Level { ERROR, WARNING }
     
-    void error(String message);
-    default void warning(String message) {
-      error(message);
+    private final Consumer<String> error;
+    private final Consumer<String> warning;
+    private final Logger quiet;
+    private final Logger normal;
+    
+    private Logger(Consumer<String> error, Consumer<String> warning,
+        Function<Logger, Logger> quietFactory, Function<Logger, Logger> normalFactory) {
+      this.error = error;
+      this.warning = warning;
+      this.quiet = quietFactory.apply(this);
+      this.normal = normalFactory.apply(this);
     }
     
-    /*private JDK9 */ interface QuietLogger extends Logger {
-      @Override
-      default void warning(String message) {
-        // empty
-      }
-      
-      @Override
-      default Logger quiet() {
-        return this;
-      }
-      @Override
-      default Logger all() {
-        return this::error;
-      }
+    public void error(String message) {
+      error.accept(message);
+    }
+    public void warning(String message) {
+      warning.accept(message);
+    }
+    public Logger quiet() {
+      return quiet;
+    }
+    public Logger normal() {
+      return normal;
     }
     
-    default Logger quiet() {
-      return (QuietLogger)this::error;
-    }
-    default Logger all() {
-      return this::error;
+    public static Logger logger(Consumer<String> consumer) {
+      return new Logger(consumer, consumer,
+          normal -> new Logger(consumer, msg -> { /* empty */ }, identity(), msg -> normal),
+          identity());
     }
   }
   
   public static void main(String[] args) {
-    Logger logger = System.out::println;
+    Logger logger = Logger.logger(System.out::println);
     logger.error("ERROR");
     logger.warning("WARNING");
     
@@ -42,7 +51,7 @@ public interface state4 {
     quiet.error("ERROR");
     quiet.warning("WARNING");
     
-    Logger logger2 = quiet.all();
+    Logger logger2 = quiet.normal();
     logger2.error("ERROR");
     logger2.warning("WARNING");
   }
