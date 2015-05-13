@@ -9,12 +9,12 @@ public interface state4 {
   class Logger {
     enum Level { ERROR, WARNING }
     
-    private final Consumer<String> error;
-    private final Consumer<String> warning;
+    private final Consumer<? super String> error;
+    private final Consumer<? super String> warning;
     private final Logger quiet;
     private final Logger normal;
     
-    private Logger(Consumer<String> error, Consumer<String> warning,
+    private Logger(Consumer<? super String> error, Consumer<? super String> warning,
         Function<Logger, Logger> quietFactory, Function<Logger, Logger> normalFactory) {
       this.error = error;
       this.warning = warning;
@@ -35,7 +35,7 @@ public interface state4 {
       return normal;
     }
     
-    public static Logger logger(Consumer<String> consumer) {
+    public static Logger logger(Consumer<? super String> consumer) {
       return new Logger(consumer, consumer,
           normal -> new Logger(consumer, msg -> { /* empty */ }, identity(), msg -> normal),
           identity());

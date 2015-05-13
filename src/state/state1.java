@@ -15,15 +15,15 @@ public interface state1 {
   
   class Loggers {
     static Logger logger(Consumer<String> printer) {
-      return new DefaultLogger(printer);
+      return new NormalLogger(printer);
     }
   }
   
-  /* private JDK9 */ class DefaultLogger implements Logger {
+  /* private JDK9 */ class NormalLogger implements Logger {
     
     private final Consumer<String> printer;
     
-    DefaultLogger(Consumer<String> printer) {
+    NormalLogger(Consumer<String> printer) {
       this.printer = printer;
     }
     
@@ -69,7 +69,7 @@ public interface state1 {
     }
     @Override
     public Logger normal() {
-      return new DefaultLogger(printer);
+      return new NormalLogger(printer);
     }
   }
   

@@ -14,16 +14,16 @@ public interface state2 {
   }
   
   class Loggers {
-    static Logger logger(Consumer<String> printer) {
-      return new DefaultLogger(printer);
+    static Logger logger(Consumer<? super String> printer) {
+      return new NormalLogger(printer);
     }
   }
   
-  /* private JDK9 */ class DefaultLogger implements Logger {
+  /* private JDK9 */ class NormalLogger implements Logger {
     
-    final Consumer<String> printer;
+    final Consumer<? super String> printer;
     
-    DefaultLogger(Consumer<String> printer) {
+    NormalLogger(Consumer<? super String> printer) {
       this.printer = printer;
     }
     
@@ -38,7 +38,7 @@ public interface state2 {
     
     @Override
     public Logger quiet() {
-      return new DefaultLogger(printer) {
+      return new NormalLogger(printer) {
         @Override
         public void warning(String message) {
           // empty
@@ -50,7 +50,7 @@ public interface state2 {
         }
         @Override
         public Logger normal() {
-          return DefaultLogger.this;
+          return NormalLogger.this;
         }
       };
     }
