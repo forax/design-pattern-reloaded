@@ -11,8 +11,8 @@ public interface adapter2 {
   public interface Logger2 {
     public void log(Level level, String message);
 
-    public default Logger error() {
-      return msg -> log(ERROR, msg);
+    public default Logger level(Level level) {
+      return msg -> log(level, msg);
     }
   }
   
@@ -20,6 +20,6 @@ public interface adapter2 {
     Logger2 logger2 = (level, msg) -> System.out.println(level + " " + msg);
     logger2.log(ERROR, "abort abort !");
     
-    logger2.error().log("abort abort !");
+    logger2.level(ERROR).log("abort abort !");
   }
 }
