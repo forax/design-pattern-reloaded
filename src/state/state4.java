@@ -12,14 +12,14 @@ public interface state4 {
     private final Consumer<? super String> error;
     private final Consumer<? super String> warning;
     private final Logger quiet;
-    private final Logger normal;
+    private final Logger chatty;
     
     private Logger(Consumer<? super String> error, Consumer<? super String> warning,
-        Function<Logger, Logger> quietFactory, Function<Logger, Logger> normalFactory) {
+        Function<Logger, Logger> quietFactory, Function<Logger, Logger> chattyFactory) {
       this.error = error;
       this.warning = warning;
       this.quiet = quietFactory.apply(this);
-      this.normal = normalFactory.apply(this);
+      this.chatty = chattyFactory.apply(this);
     }
     
     public void error(String message) {
@@ -31,8 +31,8 @@ public interface state4 {
     public Logger quiet() {
       return quiet;
     }
-    public Logger normal() {
-      return normal;
+    public Logger chatty() {
+      return chatty;
     }
     
     public static Logger logger(Consumer<? super String> consumer) {
@@ -51,7 +51,7 @@ public interface state4 {
     quiet.error("ERROR");
     quiet.warning("WARNING");
     
-    Logger logger2 = quiet.normal();
+    Logger logger2 = quiet.chatty();
     logger2.error("ERROR");
     logger2.warning("WARNING");
   }

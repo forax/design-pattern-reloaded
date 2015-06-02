@@ -10,20 +10,20 @@ public interface state1 {
     public void warning(String message);
     
     Logger quiet();
-    Logger normal();
+    Logger chatty();
   }
   
   class Loggers {
     static Logger logger(Consumer<String> printer) {
-      return new NormalLogger(printer);
+      return new ChattyLogger(printer);
     }
   }
   
-  /* private JDK9 */ class NormalLogger implements Logger {
+  /* private JDK9 */ class ChattyLogger implements Logger {
     
     private final Consumer<String> printer;
     
-    NormalLogger(Consumer<String> printer) {
+    ChattyLogger(Consumer<String> printer) {
       this.printer = printer;
     }
     
@@ -41,7 +41,7 @@ public interface state1 {
       return new QuietLogger(printer);
     }
     @Override
-    public Logger normal() {
+    public Logger chatty() {
       return this;
     }
   }
@@ -68,8 +68,8 @@ public interface state1 {
       return this;
     }
     @Override
-    public Logger normal() {
-      return new NormalLogger(printer);
+    public Logger chatty() {
+      return new ChattyLogger(printer);
     }
   }
   
@@ -87,7 +87,7 @@ public interface state1 {
     quiet.error("ERROR");
     quiet.warning("WARNING");
     
-    Logger logger2 = quiet.normal();
+    Logger logger2 = quiet.chatty();
     logger2.error("ERROR");
     logger2.warning("WARNING");
   }
