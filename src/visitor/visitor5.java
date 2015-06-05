@@ -1,6 +1,7 @@
 package visitor;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public interface visitor5 {
@@ -9,7 +10,7 @@ public interface visitor5 {
   public class Moto implements Vehicle { /* empty */ }
   
   public class Visitor<R> {
-    private final HashMap<Class<?>, Function<Object, ? extends R>> map = new HashMap<>();
+    private final Map<Class<?>, Function<Object, ? extends R>> map = new HashMap<>();
     
     public <T> Visitor<R> when(Class<? extends T> type, Function<? super T, ? extends R> fun) {
       map.put(type, fun.compose(type::cast));

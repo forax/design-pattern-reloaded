@@ -3,6 +3,7 @@ package command;
 import static java.util.Arrays.stream;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 public interface command3 {
@@ -20,7 +21,7 @@ public interface command3 {
     public static CommandLineParser create(BiConsumer<OptionBuilder, Context> consumer) {
       StringBuilder help = new StringBuilder();
       Context context = () -> System.out.println(help);
-      HashMap<String, Runnable> actionMap = new HashMap<>();
+      Map<String, Runnable> actionMap = new HashMap<>();
       consumer.accept((name, description, action) -> {
         actionMap.put('-' + name, action);
         help.append(name).append(": ").append(description).append('\n');

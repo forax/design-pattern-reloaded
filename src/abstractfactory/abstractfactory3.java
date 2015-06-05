@@ -1,6 +1,7 @@
 package abstractfactory;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public interface abstractfactory3 {
@@ -19,7 +20,7 @@ public interface abstractfactory3 {
   }
   
   public class VehicleFactory {
-    private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
+    private final Map<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
     public void register(String name, Supplier<? extends Vehicle> supplier) {
       map.put(name, supplier);

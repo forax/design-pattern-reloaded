@@ -1,6 +1,7 @@
 package builder;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -27,7 +28,7 @@ public interface builder4 {
     public Vehicle create(String name);
     
     public static VehicleFactory create(Consumer<Builder> consumer) {
-      HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
+      Map<String, Supplier<? extends Vehicle>> map = new HashMap<>();
       consumer.accept(map::put);
       return name -> {
         return map.getOrDefault(name,

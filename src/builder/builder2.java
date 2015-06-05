@@ -1,6 +1,7 @@
 package builder;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public interface builder2 {
@@ -19,7 +20,7 @@ public interface builder2 {
   }
   
   public class Builder {
-    private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
+    private final Map<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
     public void register(String name, Supplier<? extends Vehicle> supplier) {
       map.put(name, supplier);

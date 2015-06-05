@@ -16,7 +16,7 @@ public interface autovivification1 {
   }
 
   public static void main(String[] args) {
-    HashMap<String, List<String>> map = new HashMap<>();
+    Map<String, List<String>> map = new HashMap<>();
     Dict<String, List<String>> dict = Dict.asDict(map, ArrayList::new);
     dict.get("foo").add("bar");
     dict.get("foo").add("baz");
