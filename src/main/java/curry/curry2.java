@@ -44,7 +44,7 @@ public interface curry2 {
     BiFunction<String, String, Vehicle> createVehicle =
         (kind, colorName) -> vehicleFactoryFactory.apply(kind).apply(colorFactory.apply(colorName));
     
-    Vehicle vehicle = createVehicle.apply("rectangle", "violet");
+    Vehicle vehicle = createVehicle.apply("car", "violet");
     System.out.println(vehicle);
   }
 }

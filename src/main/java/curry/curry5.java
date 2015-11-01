@@ -45,12 +45,12 @@ public interface curry5 {
     Function<String, Function<Color, Vehicle>> vehicleFactoryFactory = factory(builder -> {
       builder.accept("car", Car::new);
       builder.accept("moto", Moto::new);
-    }, key -> __ -> { throw new IllegalStateException("unknow shape " + key); });
+    }, key -> __ -> { throw new IllegalStateException("unknow vehicle " + key); });
     
     Function<String, Function<String, Vehicle>> vehicleFactory =
         kind -> vehicleFactoryFactory.apply(kind).compose(colorFactory);
         
-    Vehicle vehicle = vehicleFactory.apply("rectangle").apply("violet");
+    Vehicle vehicle = vehicleFactory.apply("car").apply("violet");
     System.out.println(vehicle);
   }
 }

@@ -46,12 +46,12 @@ public interface curry3 {
     Function<String, Function<Color, Vehicle>> vehicleFactoryFactory = factory(builder -> {
       builder.accept("car", Car::new);
       builder.accept("moto", Moto::new);
-    }, key -> __ -> { throw new IllegalStateException("unknow shape " + key); });
+    }, key -> __ -> { throw new IllegalStateException("unknow vehicle " + key); });
     
     BiFunction<String, String, Vehicle> vehicleFactory =
         (kind, colorName) -> vehicleFactoryFactory.apply(kind).apply(colorFactory.apply(colorName));
         
-    Vehicle vehicle = vehicleFactory.apply("rectangle", "violet");
+    Vehicle vehicle = vehicleFactory.apply("car", "violet");
     System.out.println(vehicle);
   }
 }
