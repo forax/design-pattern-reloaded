@@ -10,7 +10,7 @@ public interface autovivification1 {
   interface Dict<K,V> {
     V get(K key);
     
-    public static <K,V> Dict<K, V> asDict(Map<K, V> map, Supplier<? extends V> factory) {
+    public static <K,V> Dict<K, V> asDict(Map<? super K, V> map, Supplier<? extends V> factory) {
       return key -> map.computeIfAbsent(key, k -> factory.get());
     }
   }
