@@ -1,4 +1,4 @@
-package chainofresponsability;
+package chainofresponsibility;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import chainofresponsability.chainofresponsability1.BinaryOp.Operator;
+import chainofresponsibility.chainofresponsibility1.BinaryOp.Operator;
 
-public interface chainofresponsability1 {
+public interface chainofresponsibility1 {
   public static class Value implements Expr {
     private final double value;
 

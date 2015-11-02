@@ -1,4 +1,4 @@
-package chainofresponsability;
+package chainofresponsibility;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -7,9 +7,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface chainofresponsability2 {
+public interface chainofresponsibility3 {
   public static class Value implements Expr {
     private final double value;
 
@@ -85,21 +86,30 @@ public interface chainofresponsability2 {
       return BinaryOp.Operator.parse(token).map(op -> new BinaryOp(op, supplier.get(), supplier.get()));
     }
     
-    public static Expr parse(Iterator<String> it) {
+    public static Expr parse(Iterator<String> it, Function<? super String, ? extends Optional<Expr>> factory) {
       String token = it.next();
-      Optional<Expr> expr = parseBinaryOp(token, () -> parse(it));
-      if (!expr.isPresent()) {
-        expr = parseValue(token);
-        if (!expr.isPresent()) {
-          expr = parseVariable(token);
-        }
-      }
-      return expr.orElseThrow(() -> new IllegalStateException("illegal token " + token));
+      return factory.apply(token).orElseThrow(() -> new IllegalStateException("illegal token " + token));
     }
+  }
+
+  static <T> Optional<T> or(Optional<T> opt, Supplier<? extends Optional<T>> supplier) {
+    return opt.isPresent()? opt: supplier.get();
+  }
+  
+  public static Expr parse(Iterator<String> it) {
+    return Expr.parse(it, token ->
+        or(Expr.parseBinaryOp(token, () -> parse(it)), () ->
+            or(Expr.parseValue(token), () ->
+               Expr.parseVariable(token))));
+    
+    // with JDK9 !
+    //return parse(it, token -> Expr.parseBinaryOp(token, () -> parse(it))
+    //    .or(() -> Expr.parseValue(token)
+    //        .or(() -> Expr.parseVariable(token))));
   }
   
   public static void main(String[] args) {
-    Expr expr = Expr.parse(Arrays.asList("+ 2 * a 3".split(" ")).iterator());
+    Expr expr = parse(Arrays.asList("+ 2 * a 3".split(" ")).iterator());
     System.out.println(expr);
   }
 }
