@@ -8,7 +8,7 @@ public interface visitor6 {
   public class Car implements Vehicle { /* empty */}
   public class Moto implements Vehicle { /* empty */ }
 
-  public class Toto{ /* empty */ }
+  public class Fruit { /* empty */ }
   
   public class Visitor<U, R> {
     private final HashMap<Class<? extends U>, Function<U, ? extends R>> map = new HashMap<>();
@@ -17,7 +17,7 @@ public interface visitor6 {
       map.put(type, fun.compose(type::cast));
       return this;
     }
-    public <T extends U> R call(T receiver) {
+    public R call(U receiver) {
       return map.getOrDefault(receiver.getClass(),
               obj -> { throw new IllegalArgumentException("invalid " + obj); })
           .apply(receiver);
@@ -28,11 +28,11 @@ public interface visitor6 {
     Visitor<Vehicle, String> visitor = new Visitor<>();
     visitor.when(Car.class, car -> "car")
            .when(Moto.class, moto -> "moto")
-           .when(Toto.class, toto -> "toto"); // doesn't compile :)
+           .when(Fruit.class, fruit -> "fruit"); // doesn't compile :)
 
     Vehicle vehicle = new Car();
     String text = visitor.call(vehicle);
-    visitor.call(new Toto()); // doesn't compile :)
+    visitor.call(new Fruit()); // doesn't compile :)
     System.out.println(text);
   }
 }
