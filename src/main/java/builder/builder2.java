@@ -26,7 +26,11 @@ public interface builder2 {
     }
     
     public VehicleFactory toFactory() {
-      return name -> map.getOrDefault(name, () -> { throw new IllegalArgumentException("Unknown " + name); }).get();
+      return name -> map.getOrDefault(name, unknown(name)).get();
+    }
+    
+    private static Supplier<Vehicle> unknown(String name) {
+      return () -> { throw new IllegalArgumentException("Unknown " + name); };
     }
   }
   

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import builder.builder2.Vehicle;
+
 public interface builder3 {
   public interface Vehicle { /* empty */ }
   public class Car implements Vehicle {
@@ -29,7 +31,11 @@ public interface builder3 {
     public static VehicleFactory create(Consumer<Builder> consumer) {
       HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
       consumer.accept(map::put);
-      return name -> map.getOrDefault(name, () -> { throw new IllegalArgumentException("Unknown " + name); }).get();
+      return name -> map.getOrDefault(name, unknown(name)).get();
+    }
+    
+    static Supplier<Vehicle> unknown(String name) {
+      return () -> { throw new IllegalArgumentException("Unknown " + name); };
     }
   }
   
