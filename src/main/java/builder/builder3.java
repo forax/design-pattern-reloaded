@@ -28,12 +28,8 @@ public interface builder3 {
     
     public static VehicleFactory create(Consumer<Builder> consumer) {
       HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
-      consumer.accept((name, supplier) -> map.put(name, supplier));
-      return name -> {
-        return map.getOrDefault(name,
-            () -> { throw new IllegalArgumentException("Unknown " + name); })
-          .get();
-      };
+      consumer.accept(map::put);
+      return name -> map.getOrDefault(name, () -> { throw new IllegalArgumentException("Unknown " + name); }).get();
     }
   }
   

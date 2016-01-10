@@ -9,13 +9,8 @@ import java.util.Map;
 
 public interface command2 {
   enum Option {
-    ALL("a", "print all info", () -> {
-      System.out.println("see -a");
-    }),
-    HELP("help", "print this help", () -> {
-      stream(values()).forEach(System.out::println);
-    })
-    ;
+    ALL("a", "print all info", () -> System.out.println("see -a")),
+    HELP("help", "print this help", () -> stream(values()).forEach(System.out::println));
     
     private final String name;
     private final String description;
