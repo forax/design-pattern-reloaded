@@ -22,13 +22,13 @@ public interface memoizer3 {
   }
   
   public static void main(String[] args) {
-    Memoizer<Integer, Integer> memoizer = new Memoizer<>((n, memoize) -> {
+    Memoizer<Integer, Integer> fibo = new Memoizer<>((n, fib) -> {
       if (n < 2) {
         return 1;
       }
-      return memoize.apply(n - 1) + memoize.apply(n - 2);
+      return fib.apply(n - 1) + fib.apply(n - 2);
     });
     
-    range(0, 20).map(memoizer::memoize).forEach(System.out::println);
+    range(0, 20).map(fibo::memoize).forEach(System.out::println);
   }
 }

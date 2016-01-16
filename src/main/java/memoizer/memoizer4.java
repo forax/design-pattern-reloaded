@@ -15,11 +15,11 @@ public interface memoizer4 {
   }
   
   public static void main(String[] args) {
-    Function<Integer, Integer> fibo = memoize((n, memoize) -> {
+    Function<Integer, Integer> fibo = memoize((n, fib) -> {
       if (n < 2) {
         return 1;
       }
-      return memoize.apply(n - 1) + memoize.apply(n - 2);
+      return fib.apply(n - 1) + fib.apply(n - 2);
     });
     
     range(0, 20).map(fibo::apply).forEach(System.out::println);
