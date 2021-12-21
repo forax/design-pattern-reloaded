@@ -55,7 +55,7 @@ public interface builder2 {
       values = new Object[hiddenClass.slotMap.size()];
     }
 
-    public <K> Builder<T> with(Accessor<T, K> accessor, K value) {
+    public <K> Builder<T> with(Accessor<? super T, ? extends K> accessor, K value) {
       SerializedLambda lambda;
       try {
         var mh = lookup.findVirtual(accessor.getClass(), "writeReplace", methodType(Object.class));
