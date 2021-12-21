@@ -2,67 +2,50 @@ package monad;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import static java.util.function.Predicate.not;
 
 public interface monad3 {
-  public class Validator<T> {
-    private final T t;
-    private final IllegalStateException error;
+  record User(String name, int age) { }
 
-    private Validator(T t, IllegalStateException error) {
-      this.t = t;
-      this.error = error;
-    }
+  record Error(IllegalArgumentException e, Error next) { }
 
-    public T get() throws IllegalStateException {
+  record Validator<V>(V value, Error error) {
+    public V orElseThrow() throws IllegalStateException {
       if (error == null) {
-        return t;
+        return value;
       }
-      throw error;
+      var exception = new IllegalStateException();
+      Stream.iterate(error, Objects::nonNull, Error::next).map(Error::e).forEach(exception::addSuppressed);
+      throw exception;
     }
 
-    public Validator<T> validate(Predicate<? super T> validation, String message) {
-      if (!validation.test(t)) {
-        return new Validator<>(t, new IllegalStateException(message));
+    public Validator<V> check(Predicate<? super V> validation, String message) {
+      if (!validation.test(value)) {
+        return new Validator<>(value, new Error(new IllegalArgumentException(message), error));
       }
       return this;
     }
 
-    public <U> Validator<T> validate(Function<? super T, ? extends U> projection, Predicate<? super U> validation, String message) {
-      //return validate(t -> validation.test(projection.apply(t)), message);
-      return validate(projection.andThen(validation::test)::apply, message);
-    }
-
-    public static <T> Validator<T> of(T t) {
-      Objects.requireNonNull(t);
-      return new Validator<>(t, null);
+    public <U> Validator<V> check(Function<? super V, ? extends U> projection, Predicate<? super U> validation, String message) {
+      return check(projection.andThen(validation::test)::apply, message);
     }
   }
 
-  public class User {
-    private final String name;
-    private final int age;
-
-    public User(String name, int age) {
-      this.name = name;
-      this.age = age;
-    }
-
-    public String getName() {
-      return name;
-    }
-    public int getAge() {
-      return age;
-    }
+  static IntPredicate inBetween(int start, int end) {
+    return value -> value >= start && value <= end;
   }
 
-  public static void main(String[] args) {
-    User user = new User("bob", 12);
-    //User user = new User("", -12);
-    User validatedUser = Validator.of(user)
-        .validate(User::getName, Objects::nonNull, "name is null")
-        .validate(User::getName, name -> !name.isEmpty(), "name is empty")
-        .validate(User::getAge, age -> age > 0 && age < 150, "age is between 0 and 150")
-        .get();
+  static void main(String[] args) {
+    var user = new User("bob", 12);
+    //var user = new User("", -12);
+    var validatedUser = new Validator<>(user, null)
+        .check(User::name, Objects::nonNull, "name is null")
+        .check(User::name, not(String::isEmpty), "name is empty")
+        .check(User::age,  inBetween(0, 150)::test, "age is not between 0 and 150")
+        .orElseThrow();
   }
 }

@@ -1,51 +1,43 @@
 package factory;
 
-import static factory.factory2.Color.BLUE;
-import static factory.factory2.Color.RED;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.IntStream.range;
-
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public interface factory2 {
-  public enum Color { RED, GREEN, BLUE }
-  
-  public interface Vehicle { /* empty */ }
-  public class Car implements Vehicle {
-    private final Color color;
-    public Car(Color color) {
-      this.color = color;
-    }
-    
+  enum Color { RED, BLUE }
+
+  interface Vehicle { }
+  record Car(Color color) implements Vehicle {
     @Override
     public String toString() {
-      return "Car " + color; 
+      return "Car " + color;
     }
   }
-  public class Moto implements Vehicle {
-    private final Color color;
-    public Moto(Color color) {
-      this.color = color;
-    }
-    
+  record Moto(Color color) implements Vehicle {
     @Override
     public String toString() {
-      return "Moto " + color; 
+      return "Moto " + color;
     }
   }
-  
-  public static List<Vehicle> create5(Supplier<? extends Vehicle> factory) {
-    return range(0, 5).mapToObj(i -> factory.get()).collect(toList());
+
+  interface VehicleFactory {
+    Vehicle create(Color color);
+
+    default Supplier<Vehicle> curry(Color color) {
+      return () -> create(color);
+    }
+  }
+
+  static List<Vehicle> create5(Supplier<Vehicle> factory) {
+    return Stream.generate(factory).limit(5).toList();
   }
   
-  public static void main(String[] args) {
-    Supplier<Vehicle> redCarFactory =
-      () -> new Car(RED);
-    Supplier<Vehicle> blueMotoFactory =  
-      () -> new Moto(BLUE);
-    
-    System.out.println(create5(redCarFactory));
-    System.out.println(create5(blueMotoFactory));
+  static void main(String[] args) {
+    var carFactory = (VehicleFactory) Car::new;
+    var motoFactory = (VehicleFactory) Car::new;
+
+    System.out.println(create5(carFactory.curry(Color.RED)));
+    System.out.println(create5(motoFactory.curry(Color.BLUE)));
   }
 }

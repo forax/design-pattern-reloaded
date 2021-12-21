@@ -1,35 +1,35 @@
 package abstractfactory;
 
 public interface abstractfactory1 {
-  public interface Vehicle {
-    public static Vehicle create(String name) {
+  sealed interface Vehicle {
+    static Vehicle create(String name) {
       switch(name) {
+        case "bus":
+          return new Bus();
         case "car":
           return new Car();
-        case "moto":
-          return new Moto();
         default:
           throw new IllegalArgumentException("unknown " + name);
       }
     }
   }
-  public class Car implements Vehicle {
+  record Bus() implements Vehicle {
     @Override
     public String toString() {
-      return "Car "; 
+      return "Bus";
     }
   }
-  public class Moto implements Vehicle {
+  record Car() implements Vehicle {
     @Override
     public String toString() {
-      return "Moto "; 
+      return "Car";
     }
   }
   
-  public static void main(String[] args) {
-    Vehicle vehicle1 = Vehicle.create("car");
+  static void main(String[] args) {
+    var vehicle1 = Vehicle.create("bus");
     System.out.println(vehicle1);
-    Vehicle vehicle2 = Vehicle.create("moto");
+    var vehicle2 = Vehicle.create("car");
     System.out.println(vehicle2);
   }
 }

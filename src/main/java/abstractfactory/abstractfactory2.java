@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public interface abstractfactory2 {
-  public interface Vehicle { /* empty */ }
-  public class Car implements Vehicle {
+  interface Vehicle { }
+  record Bus(String color) implements Vehicle {
     @Override
     public String toString() {
-      return "Car "; 
+      return "Bus " + color;
     }
   }
-  public class Moto implements Vehicle {
+  record Car() implements Vehicle {
     @Override
     public String toString() {
-      return "Moto "; 
+      return "Car";
     }
   }
   
-  public class VehicleFactory {
+  class VehicleFactory {
     private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
     public void register(String name, Supplier<? extends Vehicle> supplier) {
@@ -31,14 +31,17 @@ public interface abstractfactory2 {
     }
   }
   
-  public static void main(String[] args) {
-    VehicleFactory factory = new VehicleFactory();
-    factory.register("car", () -> new Car());
-    factory.register("moto", () -> new Moto());
+  static void main(String[] args) {
+    var factory = new VehicleFactory();
+    factory.register("car", Car::new);
+
+    // as a singleton
+    var yellowBus = new Bus("yellow");
+    factory.register("bus", () -> yellowBus);
     
-    Vehicle vehicle1 = factory.create("car");
+    var vehicle1 = factory.create("bus");
     System.out.println(vehicle1);
-    Vehicle vehicle2 = factory.create("moto");
+    var vehicle2 = factory.create("car");
     System.out.println(vehicle2);
   }
 }

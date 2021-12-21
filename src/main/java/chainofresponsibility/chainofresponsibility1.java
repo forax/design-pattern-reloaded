@@ -1,95 +1,41 @@
 package chainofresponsibility;
 
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-
-import chainofresponsibility.chainofresponsibility1.BinaryOp.Operator;
-
 public interface chainofresponsibility1 {
-  public static class Value implements Expr {
-    private final double value;
+  enum Level {
+    INFO, WARNING, ERROR
+  }
 
-    public Value(double value) {
-      this.value = value;
-    }
+  interface Logger {
+    void log(Level messageLevel, String message);
+  }
 
+  record ConsoleLogger(Level level, Logger logger) implements Logger {
     @Override
-    public String toString() {
-      return Double.toString(value);
+    public void log(Level messageLevel, String message) {
+      if (messageLevel.compareTo(level) >= 0) {
+        System.out.println("log on console: " + message);
+      }
+      if (logger != null) {
+        logger.log(messageLevel, message);
+      }
     }
   }
 
-  public static class Variable implements Expr {
-    private final String name;
-
-    public Variable(String name) {
-      this.name = Objects.requireNonNull(name);
-    }
-
+  record FileLogger(Level level, Logger logger) implements Logger {
     @Override
-    public String toString() {
-      return name;
-    }
-  }
-
-  public static class BinaryOp implements Expr {
-    private final Operator operator;
-    private final Expr left;
-    private final Expr right;
-
-    public enum Operator {
-      ADD("+"), SUB("-"), MUL("*");
-
-      final String name;
-
-      private Operator(String name) {
-        this.name = name;
+    public void log(Level messageLevel, String message) {
+      if (messageLevel.compareTo(level) >= 0) {
+        System.out.println("log on file: " + message);
       }
-
-      public static Optional<Operator> parse(String token) {
-        return Optional.ofNullable(MAP.get(token));
-      }
-      
-      private static final Map<String, Operator> MAP =
-          Arrays.stream(values()).collect(toMap(op -> op.name, op -> op));
-    }
-
-    public BinaryOp(Operator operator, Expr left, Expr right) {
-      this.operator = Objects.requireNonNull(operator);
-      this.left = Objects.requireNonNull(left);
-      this.right = Objects.requireNonNull(right);
-    }
-
-    @Override
-    public String toString() {
-      return "(" + left + ' ' + operator.name + ' ' + right + ')';
-    }
-  }
-  
-  public interface Expr {
-    public static Expr parse(Iterator<String> it) {
-      String token = it.next();
-      Optional<Operator> operator = Operator.parse(token);
-      if (operator.isPresent()) {
-        Expr left = parse(it);
-        Expr right = parse(it);
-        return new BinaryOp(operator.get(), left, right);
-      }
-      try {
-        return new Value(Double.parseDouble(token));
-      } catch(NumberFormatException e) {
-        return new Variable(token);
+      if (logger != null) {
+        logger.log(messageLevel, message);
       }
     }
   }
   
-  public static void main(String[] args) {
-    Expr expr = Expr.parse(Arrays.asList("+ 2 * a 3".split(" ")).iterator());
-    System.out.println(expr);
+  static void main(String[] args) {
+    var logger = new FileLogger(Level.WARNING, new ConsoleLogger(Level.INFO, null));
+    logger.log(Level.ERROR, "database connection error");
+    logger.log(Level.INFO, "listen on port 7777");
   }
 }

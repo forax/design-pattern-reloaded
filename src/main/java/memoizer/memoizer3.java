@@ -8,21 +8,21 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface memoizer3 {
-  class Memoizer<V, R> {
-    private final BiFunction<? super V, Function<? super V, ? extends R>, ? extends R> function;
+  final class Memoizer<V, R> {
+    private final BiFunction<? super V, Function<? super V, ? extends R>, ? extends R> bifunction;
     private final HashMap<V, R> map = new HashMap<>();
     
-    public Memoizer(BiFunction<? super V, Function<? super V, ? extends R>, ? extends R> function) {
-      this.function = Objects.requireNonNull(function);
+    public Memoizer(BiFunction<? super V, Function<? super V, ? extends R>, ? extends R> bifunction) {
+      this.bifunction = Objects.requireNonNull(bifunction);
     }
 
-    public final R memoize(V value) {
-      return map.computeIfAbsent(value, v -> function.apply(v, this::memoize));
+    public R memoize(V value) {
+      return map.computeIfAbsent(value, v -> bifunction.apply(v, this::memoize));
     }
   }
   
-  public static void main(String[] args) {
-    Memoizer<Integer, Integer> fibo = new Memoizer<>((n, fib) -> {
+  static void main(String[] args) {
+    var fibo = new Memoizer<Integer, Integer>((n, fib) -> {
       if (n < 2) {
         return 1;
       }

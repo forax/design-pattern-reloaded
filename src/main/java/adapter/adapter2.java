@@ -1,25 +1,24 @@
 package adapter;
 
-import static adapter.adapter2.Level.ERROR;
-
 public interface adapter2 {
-  public interface Logger {
-    public void log(String message);
+  interface Logger {
+    void log(String message);
   }
   
-  public enum Level { WARNING, ERROR }
-  public interface Logger2 {
-    public void log(Level level, String message);
+  enum Level { WARNING, ERROR }
+  interface Logger2 {
+    void log(Level level, String message);
 
-    public default Logger level(Level level) {
+    default Logger adapt(Level level) {
       return msg -> log(level, msg);
     }
   }
   
   public static void main(String[] args) {
     Logger2 logger2 = (level, msg) -> System.out.println(level + " " + msg);
-    logger2.log(ERROR, "abort abort !");
-    
-    logger2.level(ERROR).log("abort abort !");
+    logger2.log(Level.ERROR, "abort abort !");
+
+    Logger logger = logger2.adapt(Level.ERROR);
+    logger.log("abort abort !");
   }
 }

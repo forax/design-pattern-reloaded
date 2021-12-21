@@ -3,25 +3,21 @@ package observer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.regex.Pattern;
 
 public interface observer1 {
-  public class SumCSV {
-    public static double parseAndSum(Path path) throws IOException {
-      try (Stream<String> lines = Files.lines(path)) {
-        return lines
-            .flatMap(line -> Arrays.stream(line.split(",")))
-            .mapToDouble(token -> Double.parseDouble(token))
-            .sum();
-      }
+  static double parseAndSum(Path path) throws IOException {
+    try (var lines = Files.lines(path)) {
+      return lines
+          .flatMap(Pattern.compile(",")::splitAsStream)
+          .mapToDouble(Double::parseDouble)
+          .sum();
     }
   }
   
-  public static void main(String[] args) throws IOException {
-    Path path = Paths.get("test/test.csv");
-    double value = SumCSV.parseAndSum(path);
+  static void main(String[] args) throws IOException {
+    var path = Path.of("test/test.csv");
+    var value = parseAndSum(path);
     System.out.println(value);
   }
 }

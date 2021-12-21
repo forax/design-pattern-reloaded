@@ -1,6 +1,6 @@
-package structuraltyping;
+package typing;
 
-public interface ducktyping {
+public interface dynamictyping {
   class A {
     public void m() { 
       System.out.println("A::m");

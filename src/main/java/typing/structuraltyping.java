@@ -1,17 +1,17 @@
-package structuraltyping;
+package typing;
 
-public interface subtyping {
+public interface structuraltyping {
   interface I {
     void m();
   }
   
-  class A implements I {
+  class A {
     public void m() { 
       System.out.println("A::m");
     }
   }
   
-  class B implements I {
+  class B {
     public void m() { 
       System.out.println("B::m");
     }
@@ -21,8 +21,8 @@ public interface subtyping {
     i.m();
   }
   
-  public static void main(String[] args) {
-    print(new A());
-    print(new B());
+  static void main(String[] args) {
+    print(new A()::m);
+    print(new B()::m);
   }
 }

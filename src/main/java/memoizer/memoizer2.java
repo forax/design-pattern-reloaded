@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public interface memoizer2 {
-  class Memoizer<V, R> {
+  final class Memoizer<V, R> {
     private final Function<? super V, ? extends R> function;
     private final HashMap<V, R> map = new HashMap<>();
     
@@ -15,13 +15,13 @@ public interface memoizer2 {
       this.function = Objects.requireNonNull(function);
     }
 
-    public final R memoize(V value) {
+    public R memoize(V value) {
       return map.computeIfAbsent(value, function);
     }
   }
   
-  public static void main(String[] args) {
-    Memoizer<Integer, Integer> memoizer = new Memoizer<>(
+  static void main(String[] args) {
+    var memoizer = new Memoizer<Integer, Integer>(
         n -> {
           if (n < 2) {
             return 1;

@@ -1,81 +1,62 @@
 package state;
 
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicReference;
 
 public interface state2 {
-  interface Logger {
-    enum Level { ERROR, WARNING }
-    
-    public void error(String message);
-    public void warning(String message);
-    
-    Logger quiet();
-    Logger chatty();
-  }
-  
-  class Loggers {
-    static Logger logger(Consumer<? super String> printer) {
-      return new ChattyLogger(printer);
+  class Process {
+    private sealed interface State {
+      boolean isTerminated();
+      String result();
     }
-  }
-  
-  /* private JDK9 */ class ChattyLogger implements Logger {
-    
-    final Consumer<? super String> printer;
-    
-    ChattyLogger(Consumer<? super String> printer) {
-      this.printer = printer;
-    }
-    
-    @Override
-    public void error(String message) {
-      printer.accept(message);
-    }
-    @Override
-    public void warning(String message) {
-      printer.accept(message);
-    }
-    
-    @Override
-    public Logger quiet() {
-      return new ChattyLogger(printer) {
-        @Override
-        public void warning(String message) {
-          // empty
-        }
-        
-        @Override
-        public Logger quiet() {
-          return this;
-        }
-        @Override
-        public Logger chatty() {
-          return ChattyLogger.this;
-        }
-      };
-    }
-    @Override
-    public Logger chatty() {
-      return this;
-    }
-  }
-  
-  public static void main(String[] args) {
-    Logger logger = Loggers.logger(new Consumer<String>() {
-      @Override
-      public void accept(String msg) {
-        System.out.println(msg);
+    private enum EnumState implements State {
+      CREATED, RUNNING;
+
+      public boolean isTerminated() {
+        return false;
       }
-    });
-    logger.error("ERROR");
-    logger.warning("WARNING");
-    
-    Logger quiet = logger.quiet();
-    quiet.error("ERROR");
-    quiet.warning("WARNING");
-    
-    Logger logger2 = quiet.chatty();
-    logger2.error("ERROR");
-    logger2.warning("WARNING");
+      public String result() {
+        throw new IllegalStateException("not terminated !");
+      }
+    }
+    private record TerminatedState(String result) implements State {
+      @Override
+      public boolean isTerminated() {
+        return true;
+      }
+    }
+
+    private final AtomicReference<State> state = new AtomicReference<>(EnumState.CREATED);
+
+    public void start() {
+      if (!state.compareAndSet(EnumState.CREATED, EnumState.RUNNING)) {
+        throw new IllegalStateException("already stated");
+      }
+      new Thread(() -> {
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e) {
+          state.set(new TerminatedState(null));
+          return;
+        }
+        state.set(new TerminatedState("hello"));
+      }).start();
+    }
+
+    public boolean isTerminated() {
+      return state.get().isTerminated();
+    }
+
+    public String result() {
+      return state.get().result();
+    }
+  }
+
+  static void main(String[] args) throws InterruptedException {
+    var process = new Process();
+    System.out.println("terminated? " + process.isTerminated());
+    process.start();
+    Thread.sleep(1_000);
+    System.out.println("terminated? " + process.isTerminated());
+    System.out.println("result " + process.result());
   }
 }

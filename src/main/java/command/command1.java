@@ -1,62 +1,66 @@
 package command;
 
-import static java.util.Arrays.stream;
-import static java.util.Objects.requireNonNull;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Map;
+import java.util.List;
 
 public interface command1 {
-  enum Option {
-    ALL("a", "print all info") {
-      @Override
-      void perform() {
-        System.out.println("see -a");
-      }
-    },
-    HELP("help", "print this help") {
-      @Override
-      void perform() {
-        stream(values()).forEach(System.out::println);
-      }
-    }
-    ;
-    
-    private final String name;
-    private final String description;
-    
-    private Option(String name, String description) {
-      this.name = requireNonNull(name);
-      this.description = requireNonNull(description);
-    }
-    
-    abstract void perform();
-    
+  class Config {
+    boolean showHidden = false;
+    boolean longForm = false;
+    boolean showInode = false;
+    boolean showHelp = false;
+
     @Override
     public String toString() {
-      return name + ": " + description;
+      return "Config[showHidden: %s, longForm: %s, showInode: %s, showHelp: %s]"
+          .formatted(showHidden, longForm, showInode, showHelp);
     }
-    
-    public static void parse(String[] args) {
-      for(String arg: args) {
-        if (arg.startsWith("-")) {
-          Option option = OPTION_MAP.get(arg);
-          if (option == null) {
-            HELP.perform();
-            System.exit(1);
-            return;
+  }
+
+  static Config config(List<String> args) {
+    var config = new Config();
+    for(var arg: args) {
+      switch (arg) {
+        case "-a", "--all" -> {
+          if (config.showHidden) {
+            throw new IllegalStateException("showHidden specified twice");
           }
-          option.perform();
+          config.showHidden = true;
         }
+        case "-l", "--long" -> {
+          if (config.longForm) {
+            throw new IllegalStateException("longForm specified twice");
+          }
+          config.longForm = true;
+        }
+        case "-i", "--inode" -> {
+          if (config.showInode) {
+            throw new IllegalStateException("showInode specified twice");
+          }
+          config.showInode = true;
+        }
+        case "-h", "--help" -> {
+          if (config.showHelp) {
+            throw new IllegalStateException("showHelp specified twice");
+          }
+          config.showHelp = true;
+        }
+        default -> {}  // ignore
       }
     }
-    
-    private static final Map<String, Option> OPTION_MAP =
-        stream(values()).collect(toMap(opt -> '-' + opt.name, identity()));
+    return config;
   }
-  
-  public static void main(String[] args) {
-    Option.parse(args);
+
+  static void main(String[] args){
+    args = new String[] { "--all", "foo", "-i", "--help" }; // DEBUG
+    var config = config(List.of(args));
+    System.out.println(config);
+    if (config.showHelp) {
+      System.out.println("""
+          -a, --all: show hidden files
+          -l, --long: long form
+          -i, --inode: show inodes
+          -h, --help: show this help
+          """);
+    }
   }
 }

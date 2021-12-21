@@ -15,8 +15,8 @@ public interface memoizer1 {
     protected abstract R compute(V value);
   }
   
-  public static void main(String[] args) {
-    Memoizer<Integer, Integer> memoizer = new Memoizer<Integer, Integer>() {
+  static void main(String[] args) {
+    var memoizer = new Memoizer<Integer, Integer>() {
       @Override
       protected Integer compute(Integer n) {
         if (n < 2) {

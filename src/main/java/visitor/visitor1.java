@@ -1,28 +1,41 @@
 package visitor;
 
-import java.util.function.Function;
-
 public interface visitor1 {
-  public interface Vehicle { /* empty */ }
-  public class Car implements Vehicle { /* empty */}
-  public class Moto implements Vehicle { /* empty */ }
-  
-  public class Visitor<R> {
-    public <T> Visitor<R> when(Class<? extends T> type, Function<? super T, ? extends R> fun) {
-      throw new UnsupportedOperationException("TODO");
-    }
-    public R call(Object receiver) {
-      throw new UnsupportedOperationException("TODO");
+  interface Vehicle {
+    <R> R accept(Visitor<? extends R> visitor);
+  }
+  record Car() implements Vehicle {
+    @Override
+    public <R> R accept(Visitor<? extends R> visitor) {
+      return visitor.visitCar(this);
     }
   }
+  record Bus() implements Vehicle {
+    @Override
+    public <R> R accept(Visitor<? extends R> visitor) {
+      return visitor.visitBus(this);
+    }
+  }
+  
+  interface Visitor<R> {
+    R visitBus(Bus bus);
+    R visitCar(Car car);
+  }
 
-  public static void main(String[] args) {
-    Visitor<String> visitor = new Visitor<>();
-    visitor.when(Car.class, car -> "car")
-           .when(Moto.class, moto -> "moto");
-
+  static void main(String[] args) {
+    var visitor = new Visitor<String>() {
+      @Override
+      public String visitBus(Bus bus) {
+        return "bus";
+      }
+      @Override
+      public String visitCar(Car car) {
+        return "car";
+      }
+    };
+   
     Vehicle vehicle = new Car();
-    String text = visitor.call(vehicle); 
+    String text = vehicle.accept(visitor); 
     System.out.println(text);
   }
 }
