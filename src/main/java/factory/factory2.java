@@ -8,23 +8,13 @@ public interface factory2 {
   enum Color { RED, BLUE }
 
   interface Vehicle { }
-  record Car(Color color) implements Vehicle {
-    @Override
-    public String toString() {
-      return "Car " + color;
-    }
-  }
-  record Moto(Color color) implements Vehicle {
-    @Override
-    public String toString() {
-      return "Moto " + color;
-    }
-  }
+  record Car(Color color) implements Vehicle { }
+  record Bus(Color color) implements Vehicle { }
 
   interface VehicleFactory {
     Vehicle create(Color color);
 
-    default Supplier<Vehicle> curry(Color color) {
+    default Supplier<Vehicle> bind(Color color) {
       return () -> create(color);
     }
   }
@@ -34,10 +24,10 @@ public interface factory2 {
   }
   
   static void main(String[] args) {
-    var carFactory = (VehicleFactory) Car::new;
-    var motoFactory = (VehicleFactory) Car::new;
+    VehicleFactory carFactory = Car::new;
+    VehicleFactory busFactory = Bus::new;
 
-    System.out.println(create5(carFactory.curry(Color.RED)));
-    System.out.println(create5(motoFactory.curry(Color.BLUE)));
+    System.out.println(create5(carFactory.bind(Color.RED)));
+    System.out.println(create5(busFactory.bind(Color.BLUE)));
   }
 }
