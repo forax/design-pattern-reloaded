@@ -17,7 +17,8 @@ but also emphasis immutability when necessary.
 - [memoizer](src/main/java/memoizer) caches the result of a computation to avoid multiple re-computations of the same value
 - [monad](src/main/java/monad) wraps multiple disjoint states under a common API 
 - [observer](src/main/java/observer) de-couples codes by pushing the values from an object to another one
-- [proxy](src/main/java/decorator) see [decorator](src/main/java/decorator)
+- proxy see [decorator](src/main/java/decorator)
+- singleton see [abstract-factory](src/main/java/abstractfactory)
 - [railwayswitch](src/main/java/railwayswitch) abstracts a cascade of if ... else
 - [state](src/main/java/state) delegates API implementation to an internal state object
 - [typing](src/main/java/typing), 3 kinds of relations between a static type and a runtime class

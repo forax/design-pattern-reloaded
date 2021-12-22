@@ -5,43 +5,33 @@ import java.util.function.Supplier;
 
 public interface abstractfactory2 {
   interface Vehicle { }
-  record Bus(String color) implements Vehicle {
-    @Override
-    public String toString() {
-      return "Bus " + color;
-    }
-  }
-  record Car() implements Vehicle {
-    @Override
-    public String toString() {
-      return "Car";
-    }
-  }
+  record Bus(String color) implements Vehicle { }
+  record Car() implements Vehicle { }
   
-  class VehicleFactory {
+  class Registry {
     private final HashMap<String, Supplier<? extends Vehicle>> map = new HashMap<>();
     
     public void register(String name, Supplier<? extends Vehicle> supplier) {
       map.put(name, supplier);
     }
+
     public Vehicle create(String name) {
-      return map.getOrDefault(name,
-            () -> { throw new IllegalArgumentException("Unknown " + name); })
+      return map.computeIfAbsent(name, n -> { throw new IllegalArgumentException("Unknown " + n); })
           .get();
     }
   }
   
   static void main(String[] args) {
-    var factory = new VehicleFactory();
-    factory.register("car", Car::new);
+    var registry = new Registry();
+    registry.register("car", Car::new);
 
     // as a singleton
     var yellowBus = new Bus("yellow");
-    factory.register("bus", () -> yellowBus);
+    registry.register("bus", () -> yellowBus);
     
-    var vehicle1 = factory.create("bus");
+    var vehicle1 = registry.create("bus");
     System.out.println(vehicle1);
-    var vehicle2 = factory.create("car");
+    var vehicle2 = registry.create("car");
     System.out.println(vehicle2);
   }
 }
