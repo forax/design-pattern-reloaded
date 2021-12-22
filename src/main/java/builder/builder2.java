@@ -14,8 +14,6 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.range;
 
 public interface builder2 {
-  record Spaceship(String name, String captain, int torpedoes, int length) {}
-
   class Builder<T extends Record> {
     public interface Accessor<T, V> extends Serializable {
       V apply(T t);
@@ -84,6 +82,10 @@ public interface builder2 {
       }
     }
   }
+
+  // ---
+
+  record Spaceship(String name, String captain, int torpedoes, int length) {}
 
   static void printSpaceship(Spaceship spaceship) {
     System.out.println(spaceship);
