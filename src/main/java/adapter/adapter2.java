@@ -13,12 +13,17 @@ public interface adapter2 {
       return msg -> log(level, msg);
     }
   }
-  
-  public static void main(String[] args) {
+
+  static Logger adapt(Logger2 logger2, Level level) {
+    return msg -> logger2.log(level, msg);
+  }
+
+  static void main(String[] args) {
     Logger2 logger2 = (level, msg) -> System.out.println(level + " " + msg);
     logger2.log(Level.ERROR, "abort abort !");
 
-    Logger logger = logger2.adapt(Level.ERROR);
+    //Logger logger = adapt(logger2, Level.WARNING);
+    Logger logger = logger2.adapt(Level.WARNING);
     logger.log("abort abort !");
   }
 }
