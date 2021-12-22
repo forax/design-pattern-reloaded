@@ -39,13 +39,16 @@ public interface monad3 {
     return value -> value >= start && value <= end;
   }
 
-  static void main(String[] args) {
-    var user = new User("bob", 12);
-    //var user = new User("", -12);
-    var validatedUser = new Validator<>(user, null)
-        .check(User::name, Objects::nonNull, "name is null")
+  static User validateUser(User user) {
+    return new Validator<>(user, null)
         .check(User::name, not(String::isEmpty), "name is empty")
         .check(User::age,  inBetween(0, 150)::test, "age is not between 0 and 150")
         .orElseThrow();
+  }
+
+  static void main(String[] args) {
+    var user = new User("bob", 12);
+    //var user = new User("", -12);
+    validateUser(user);
   }
 }

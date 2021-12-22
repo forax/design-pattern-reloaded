@@ -1,5 +1,7 @@
 package monad;
 
+import monad.monad1.User;
+
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -26,14 +28,17 @@ public interface monad2 {
       return this;
     }
   }
-  
-  static void main(String[] args) {
-    var user = new User("bob", 12);
-    //var user = new User("", -12);
-    var validatedUser = new Validator<>(user, null)
-        .check(u -> u.name() != null, "name is null")
+
+  static User validateUser(User user) {
+    return new Validator<>(user, null)
         .check(u -> !u.name().isEmpty(), "name is empty")
         .check(u -> u.age() >= 0 && u.age() <= 150, "age is not between 0 and 150")
         .orElseThrow();
+  }
+
+  static void main(String[] args) {
+    var user = new User("bob", 12);
+    //var user = new User("", -12);
+    validateUser(user);
   }
 }
