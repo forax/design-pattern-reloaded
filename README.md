@@ -7,7 +7,6 @@ but also emphasis immutability when necessary.
 
 - [abstract factory](src/main/java/abstractfactory) abstracts access to several factories
 - [adapter](src/main/java/adapter) to see an object from one interface as one from another interface
-- [auto-vivification](src/main/java/autovivification) automatically creates values when requested
 - [builder](src/main/java/builder) constructs objects by name instead of by position
 - [chain of responsibility](src/main/java/chainofresponsibility) constructs a pipeline of objects that handle a request
 - [command](src/main/java/command), objects that are an action
