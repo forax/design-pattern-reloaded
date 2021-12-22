@@ -6,11 +6,11 @@ import java.util.stream.Stream;
 
 public interface factory2 {
   enum Color { RED, BLUE }
-
   interface Vehicle { }
   record Car(Color color) implements Vehicle { }
   record Bus(Color color) implements Vehicle { }
 
+  @FunctionalInterface
   interface VehicleFactory {
     Vehicle create(Color color);
 
