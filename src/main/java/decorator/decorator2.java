@@ -1,9 +1,19 @@
 package decorator;
 
-public interface coffee1 {
-  interface Coffee {
+public interface decorator2 {
+  sealed interface Coffee {
     long cost();
     String ingredients();
+
+    static Coffee simple(long cost) {
+      return new SimpleCoffee(cost);
+    }
+    default Coffee withMilk() {
+      return new WithMilk(this);
+    }
+    default Coffee withSprinkles() {
+      return new WithSprinkles(this);
+    }
   }
 
   record SimpleCoffee(long cost) implements Coffee {
@@ -36,9 +46,9 @@ public interface coffee1 {
   }
 
   static void main(String[] args){
-    Coffee coffee = new SimpleCoffee(100);
-    Coffee coffeeWithMilk = new WithMilk(coffee);
-    Coffee coffeeWithMilkAndSprinkles = new WithSprinkles(coffeeWithMilk);
+    Coffee coffeeWithMilkAndSprinkles = Coffee.simple(100)
+            .withMilk()
+            .withSprinkles();
     System.out.println("ingredients: " + coffeeWithMilkAndSprinkles.ingredients());
     System.out.println("cost: " + coffeeWithMilkAndSprinkles.cost() + " cents");
   }
