@@ -1,62 +1,68 @@
 package state;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface state2 {
-  class Process {
+  record Article(String name, long price) {}
+  record CreditCard(String name, String id) {}
+  record Address(String address, String country) {}
+
+  class Cart {
     private sealed interface State {
-      boolean isTerminated();
-      String result();
-    }
-    private enum EnumState implements State {
-      CREATED, RUNNING;
-
-      public boolean isTerminated() {
-        return false;
+      default State add(Article article) {
+        throw new IllegalStateException();
       }
-      public String result() {
-        throw new IllegalStateException("not terminated !");
+      default State buy(CreditCard creditCard) {
+        throw new IllegalStateException();
+      }
+      default State ship(Address address) {
+        throw new IllegalStateException();
       }
     }
-    private record TerminatedState(String result) implements State {
+    private record Created(ArrayList<Article> articles) implements State {
       @Override
-      public boolean isTerminated() {
-        return true;
+      public State add(Article article) {
+        articles.add(article);
+        return this;
+      }
+
+      @Override
+      public State buy(CreditCard creditCard) {
+        return new Payed(List.copyOf(articles));
       }
     }
-
-    private final AtomicReference<State> state = new AtomicReference<>(EnumState.CREATED);
-
-    public void start() {
-      if (!state.compareAndSet(EnumState.CREATED, EnumState.RUNNING)) {
-        throw new IllegalStateException("already stated");
+    private record Payed(List<Article> articles) implements State {
+      @Override
+      public State ship(Address address) {
+        return new Shipped(articles, address);
       }
-      new Thread(() -> {
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e) {
-          state.set(new TerminatedState(null));
-          return;
-        }
-        state.set(new TerminatedState("hello"));
-      }).start();
     }
+    private record Shipped(List<Article> articles, Address address) implements State { }
 
-    public boolean isTerminated() {
-      return state.get().isTerminated();
+    private State state = new Created(new ArrayList<>());
+
+    public void add(Article article) {
+      state = state.add(article);
     }
-
-    public String result() {
-      return state.get().result();
+    public void buy(CreditCard creditCard) {
+      state = state.buy(creditCard);
+    }
+    public void ship(Address address) {
+      state = state.ship(address);
+    }
+    public String info() {
+      return state.toString();
     }
   }
 
-  static void main(String[] args) throws InterruptedException {
-    var process = new Process();
-    System.out.println("terminated? " + process.isTerminated());
-    process.start();
-    Thread.sleep(1_000);
-    System.out.println("terminated? " + process.isTerminated());
-    System.out.println("result " + process.result());
+  static void main(String[] args){
+    var cart = new Cart();
+    cart.add(new Article("Lego Kit", 9999));
+    System.out.println(cart.info());
+    cart.buy(new CreditCard("Mr Nobody", "1212_2121_1212_2121"));
+    System.out.println(cart.info());
+    cart.ship(new Address("12 Nice Street, London", "England"));
+    System.out.println(cart.info());
   }
 }

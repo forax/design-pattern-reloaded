@@ -1,53 +1,59 @@
 package state;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface state1 {
-  class Process {
-    private enum EnumState {
-      CREATED, RUNNING, TERMINATED;
-    }
+  record Article(String name, long price) {}
+  record CreditCard(String name, String id) {}
+  record Address(String address, String country) {}
 
-    private String result;
-    private final AtomicReference<EnumState> state = new AtomicReference<>(EnumState.CREATED);
+  class Cart {
+    private enum State { CREATED, PAYED, SHIPPED }
 
+    private List<Article> articles = new ArrayList<>();
+    private Address address;
+    private State state = State.CREATED;
 
-    public void start() {
-      if (!state.compareAndSet(EnumState.CREATED, EnumState.RUNNING)) {
-        throw new IllegalStateException("already stated");
+    public void add(Article article) {
+      if (state != State.CREATED) {
+        throw new IllegalStateException();
       }
-      new Thread(() -> {
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e) {
-          result = null;
-          state.set(EnumState.TERMINATED);
-          return;
-        }
-        result = "hello";
-        state.set(EnumState.TERMINATED);
-      }).start();
+      articles.add(article);
     }
 
-    public boolean isTerminated() {
-      var state = this.state.get();
-      return state != EnumState.CREATED && state != EnumState.RUNNING;
-    }
-
-    public String result() {
-      if (state.get() == EnumState.TERMINATED) {
-        return result;
+    public void buy(CreditCard creditCard) {
+      if (state != State.CREATED) {
+        throw new IllegalStateException();
       }
-      throw new IllegalStateException("not terminated !");
+      state = State.PAYED;
+      articles = List.copyOf(articles);
+    }
+
+    public void ship(Address address) {
+      if (state != State.PAYED) {
+        throw new IllegalStateException();
+      }
+      this.address = address;
+      state = State.SHIPPED;
+    }
+
+    public String info() {
+      return switch (state) {
+        case CREATED -> "created articles " + articles;
+        case PAYED -> "payed articles " + articles;
+        case SHIPPED -> "shipped articles " + articles + " to " + address;
+      };
     }
   }
 
-  static void main(String[] args) throws InterruptedException {
-    var process = new Process();
-    System.out.println("terminated? " + process.isTerminated());
-    process.start();
-    Thread.sleep(1_000);
-    System.out.println("terminated? " + process.isTerminated());
-    System.out.println("result " + process.result());
+  static void main(String[] args){
+    var cart = new Cart();
+    cart.add(new Article("Lego Kit", 9999));
+    System.out.println(cart.info());
+    cart.buy(new CreditCard("Mr Nobody", "1212_2121_1212_2121"));
+    System.out.println(cart.info());
+    cart.ship(new Address("12 Nice Street, London", "England"));
+    System.out.println(cart.info());
   }
 }
