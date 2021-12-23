@@ -130,7 +130,7 @@ we provide an implementation by default that throw an exception.
 ```
 
 This is similar to adding a non-public abstract class in between the interface `State` and the implementations
-if the implementations are classes. Here, we use records that does not support inheritance.
+if the implementations are classes. Here, we use records that do not support inheritance.
 
 For the state `Created`, we have a transition `add()` that cycle back to the same state (so it returns `this`)
 and a transition `buy()` that return a new state `Payed`. For `Payed`, we have a transition `ship()`
