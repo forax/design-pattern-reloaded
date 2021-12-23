@@ -6,8 +6,8 @@ Let say we have an interface `Coffee` that describe a Coffee by its cost and its
 
 ```java
 interface Coffee {
-  long cost(); // Returns the cost of the coffee, in cents
-  String ingredients(); // Returns the ingredients of the coffee
+  long cost();      // cost of the coffee, in cents
+  String ingredients();
 }
 ```
 
@@ -84,8 +84,8 @@ to create a decorator from an existing instance more easily.
 
 ```java
 sealed interface Coffee permits SimpleCoffee, WithMilk, WithSprinkles {
-  long cost(); // Returns the cost of the coffee, in cents
-  String ingredients(); // Returns the ingredients of the coffee
+  long cost();
+  String ingredients();
 
   static Coffee simple(long cost) {
     return new SimpleCoffee(cost);

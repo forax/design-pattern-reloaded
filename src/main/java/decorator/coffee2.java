@@ -3,10 +3,9 @@ package decorator;
 import decorator.coffee1.Coffee;
 
 public interface coffee2 {
-  // The interface Coffee defines the functionality of Coffee implemented by decorator
   sealed interface Coffee {
-    long cost(); // Returns the cost of the coffee, in cents
-    String ingredients(); // Returns the ingredients of the coffee
+    long cost();
+    String ingredients();
 
     static Coffee simple(long cost) {
       return new SimpleCoffee(cost);
@@ -19,7 +18,6 @@ public interface coffee2 {
     }
   }
 
-  // Extension of a simple coffee without any extra ingredients
   record SimpleCoffee(long cost) implements Coffee {
     @Override
     public String ingredients() {
@@ -27,7 +25,6 @@ public interface coffee2 {
     }
   }
 
-  // Decorator WithMilk mixes milk into coffee.
   record WithMilk(Coffee coffee) implements Coffee {
     @Override
     public long cost() {
@@ -39,7 +36,6 @@ public interface coffee2 {
     }
   }
 
-  // Decorator WithSprinkles mixes sprinkles onto coffee.
   record WithSprinkles(Coffee coffee) implements Coffee {
     @Override
     public long cost() {
