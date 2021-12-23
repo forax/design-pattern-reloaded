@@ -95,3 +95,7 @@ registry.register("bus", () -> yellowBus);
 
 This design is the basis of the [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)
 and its most popular incarnation the [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection).
+
+The registry can also be separated in two parts because all methods should be called first before calling
+the method `create` using the [builder pattern](../builder), you can find an example of such transformation
+in the [command pattern](../command) repository.
