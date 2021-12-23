@@ -1,7 +1,5 @@
 package builder;
 
-import java.util.Objects;
-
 public interface builder1 {
   record Spaceship(String name, String captain, int torpedoes, int length) {}
 
