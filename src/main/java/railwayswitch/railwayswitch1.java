@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 public interface railwayswitch1 {
-  static String findHostname(String defaultHostName) {
+  static String findHostname() {
     // 1
     var hostName = System.getenv("HOSTNAME");
     if (hostName != null) {
@@ -32,11 +32,11 @@ public interface railwayswitch1 {
     }
 
     // 4
-    return defaultHostName;
+    return "localhost";
   }
   
   static void main(String[] args) {
-    var hostname = findHostname("localhost");
+    var hostname = findHostname();
     System.out.println(hostname);
   }
 }

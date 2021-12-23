@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 public interface railwayswitch2 {
+  @FunctionalInterface
   interface Finder {
     Optional<String> find();
 
@@ -35,15 +36,16 @@ public interface railwayswitch2 {
     };
   }
 
-  static Finder hostnameFinder() {
+  static String findHostname() {
     return environment("HOSTNAME")
         .or(systemProperty("hostname"))
-        .or(fileProperty(Path.of(".config"), "hostname"));
+        .or(fileProperty(Path.of(".config"), "hostname"))
+        .find()
+        .orElse("localhost");
   }
   
   static void main(String[] args) {
-    var finder = hostnameFinder();
-    var hostname = finder.find().orElse("localhost");
+    var hostname = findHostname();
     System.out.println(hostname);
   }
 }
