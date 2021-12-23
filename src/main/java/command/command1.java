@@ -22,25 +22,25 @@ public interface command1 {
       switch (arg) {
         case "-a", "--all" -> {
           if (config.showHidden) {
-            throw new IllegalStateException("showHidden specified twice");
+            throw new IllegalStateException("--all specified twice");
           }
           config.showHidden = true;
         }
         case "-l", "--long" -> {
           if (config.longForm) {
-            throw new IllegalStateException("longForm specified twice");
+            throw new IllegalStateException("--long specified twice");
           }
           config.longForm = true;
         }
         case "-i", "--inode" -> {
           if (config.showInode) {
-            throw new IllegalStateException("showInode specified twice");
+            throw new IllegalStateException("--inode specified twice");
           }
           config.showInode = true;
         }
         case "-h", "--help" -> {
           if (config.showHelp) {
-            throw new IllegalStateException("showHelp specified twice");
+            throw new IllegalStateException("--help specified twice");
           }
           config.showHelp = true;
         }
@@ -56,10 +56,10 @@ public interface command1 {
     System.out.println(config);
     if (config.showHelp) {
       System.out.println("""
-          -a, --all: show hidden files
-          -l, --long: long form
-          -i, --inode: show inodes
-          -h, --help: show this help
+          --all, -a: show hidden files
+          --long, -l: long form
+          --inode, -i: show inodes
+          --help, -h: show this help
           """);
     }
   }

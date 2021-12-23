@@ -3,9 +3,10 @@ package command;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
-public interface command2 {
+public interface command3 {
   class Config {
     boolean showHidden = false;
     boolean longForm = false;
@@ -21,22 +22,25 @@ public interface command2 {
 
   record Command(String name, Consumer<Config> action) {}
 
-  class CommandRegistry {
-    private final HashMap<String, Command> map = new HashMap<>();
-    private final StringBuilder help = new StringBuilder();
+  record CommandRegistry(Map<String, Command> commandMap, String help) {
+    public static class Builder {
+      private final HashMap<String, Command> map = new HashMap<>();
+      private final StringBuilder help = new StringBuilder();
 
-    public void registerOptions(List<String> options, String description, Consumer<Config> action) {
-      var command = new Command(options.get(0), action);
-      options.forEach(option -> map.put(option, command));
-      help.append(String.join(", ", options)).append(": ").append(description).append("\n");
+      public Builder registerOptions(List<String> options, String description, Consumer<Config> action) {
+        var command = new Command(options.get(0), action);
+        options.forEach(option -> map.put(option, command));
+        help.append(String.join(", ", options)).append(": ").append(description).append("\n");
+        return this;
+      }
+
+      public CommandRegistry toRegistry() {
+        return new CommandRegistry(Map.copyOf(map), help.toString());
+      }
     }
 
     public Command command(String option) {
-      return map.get(option);
-    }
-
-    public String help() {
-      return help.toString();
+      return commandMap.get(option);
     }
   }
 
@@ -57,12 +61,12 @@ public interface command2 {
   }
 
   static CommandRegistry commandRegistry() {
-    var registry = new CommandRegistry();
-    registry.registerOptions(List.of("--all", "-a"), "show hidden files", c -> c.showHidden = true);
-    registry.registerOptions(List.of("--long", "-l"), "long form", c -> c.longForm = true);
-    registry.registerOptions(List.of("--inode", "-i"), "show inodes", c -> c.showInode = true);
-    registry.registerOptions(List.of("--help", "-h"), "show this help", c -> c.showHelp = true);
-    return registry;
+    return new CommandRegistry.Builder()
+        .registerOptions(List.of("--all", "-a"), "show hidden files", c -> c.showHidden = true)
+        .registerOptions(List.of("--long", "-l"), "long form", c -> c.longForm = true)
+        .registerOptions(List.of("--inode", "-i"), "show inodes", c -> c.showInode = true)
+        .registerOptions(List.of("--help", "-h"), "show this help", c -> c.showHelp = true)
+        .toRegistry();
   }
 
   static void main(String[] args) {
