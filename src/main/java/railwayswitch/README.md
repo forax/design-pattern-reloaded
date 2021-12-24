@@ -98,3 +98,6 @@ static Finder fileProperty(Path path, String name) {
   };
 }
 ```
+
+The railway switch pattern helps to move from a code describing how to reach an objective
+to a more declarative API separating how something can be found from how those things are combined.
