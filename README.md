@@ -20,6 +20,7 @@ but also emphasis immutability when necessary.
 - singleton see [abstract-factory](src/main/java/abstractfactory)
 - [railwayswitch](src/main/java/railwayswitch) abstracts a cascade of if ... else
 - [state](src/main/java/state) delegates API implementation to an internal state object
+- [template_method](src/main/java/templatemethod) define a behavior with a generic part and a specific part 
 - [typing](src/main/java/typing), 3 kinds of relations between a static type and a runtime class
 - [visitor](src/main/java/visitor), specify operations on a hierarchy of types outside that hierarchy
 
