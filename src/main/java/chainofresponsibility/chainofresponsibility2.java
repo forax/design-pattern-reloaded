@@ -4,7 +4,6 @@ public interface chainofresponsibility2 {
   enum Level {
     INFO, WARNING, ERROR
   }
-
   interface Logger {
     void log(Level messageLevel, String message);
 
