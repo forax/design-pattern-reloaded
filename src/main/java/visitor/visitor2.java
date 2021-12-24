@@ -1,12 +1,13 @@
 package visitor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
 
 public interface visitor2 {
-  interface Vehicle { }
+  /*not sealed*/ interface Vehicle { }
   record Car() implements Vehicle { }
-  record Bus() implements Vehicle { }
+  record CarHauler(List<Car> cars) implements Vehicle {}
   
   class Visitor<R> {
     private final HashMap<Class<?>, Function<Object, ? extends R>> map = new HashMap<>();
@@ -22,13 +23,16 @@ public interface visitor2 {
     }
   }
 
-  static void main(String[] args) {
-    var visitor = new Visitor<String>();
-    visitor.when(Bus.class, bus -> "bus")
-           .when(Car.class, car -> "car");
+  static int count(Vehicle vehicle) {
+    var visitor = new Visitor<Integer>();
+    visitor.when(Car.class, car -> 1)
+        .when(CarHauler.class, carHauler -> 1 + carHauler.cars().stream().mapToInt(visitor::call).sum());
+    return visitor.call(vehicle);
+  }
 
-    Vehicle vehicle = new Car();
-    var text = visitor.call(vehicle);
-    System.out.println(text);
+  static void main(String[] args) {
+    var vehicle = new CarHauler(List.of(new Car(), new Car()));
+    var count = count(vehicle);
+    System.out.println(count);
   }
 }
