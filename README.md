@@ -10,7 +10,6 @@ but also emphasis immutability when necessary.
 - [builder](src/main/java/builder) constructs objects by name instead of by position
 - [chain of responsibility](src/main/java/chainofresponsibility) constructs a pipeline of objects that handle a request
 - [command](src/main/java/command), objects that are an action
-- [curry](src/main/java/curry), delay and change the order of the arguments of a function
 - [decorator](src/main/java/decorator) dynamically adds behavior to an existing object
 - [factory](src/main/java/factory) abstracts the creation of objects
 - [memoizer](src/main/java/memoizer) caches the result of a computation to avoid multiple re-computations of the same value
