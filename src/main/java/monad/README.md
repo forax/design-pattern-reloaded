@@ -50,6 +50,7 @@ record Validator<V>(V value, Error error) {
 ```
 
 A monad stores both the value and an error (here a linked list of exceptions).
+
 It has two kind of methods
 - intermediary operation, here `check(predicate, message)` that checks the value and return a new instance of monad
   with the states updated
