@@ -57,6 +57,28 @@ record WithMilk(Coffee coffee) implements Coffee {
 }
 ```
 
+```mermaid
+classDiagram
+class Coffee {
+  <<interface>>
+  long cost()
+  String ingredients()
+}
+class SimpleCoffee {
+  <<record>>
+  long cost
+  String ingredients()
+}
+class WithMilk {
+  <<record>>
+  long cost()
+  String ingredients()
+}
+Coffee <|.. SimpleCoffee
+Coffee <|.. WithMilk
+WithMilk --> "1" Coffee : coffee
+```
+
 So `WithMilk` is simultaneously, a Coffee because it implements the interface `Coffee`and decorates an existing coffee
 by taking an instance of a Coffee as record component.
 
