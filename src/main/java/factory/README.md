@@ -21,10 +21,10 @@ class Color {
   RED
   BLUE
 }
-Vehicle <|-- Car
-Vehicle <|-- Bus
-Car --> "1" Color
-Bus --> "1" Color
+Vehicle <|.. Car
+Vehicle <|.. Bus
+Car --> "1" Color : color
+Bus --> "1" Color : color
 ```
 
 ```java
