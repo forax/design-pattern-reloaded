@@ -191,26 +191,6 @@ static CommandRegistry commandRegistry() {
 }
 ```
 
-```mermaid
-classDiagram
-class CommandRegistryBuilder {
-  registerOptions(List~String~ options, String description, Consumer~Config~ action)
-  toRegistry() CommandRegistry
-}
-class CommandRegistry {
-  <<record>>
-  String help
-  command(String option) Command
-}
-class Command {
-  <<record>>
-  String name
-  Consumer~Config~ action
-}
-CommandRegistryBuilder ..> CommandRegistry : creates
-CommandRegistry --> "1..*" Command
-```
-
 Given that the `CommandRegitry` has no method `registerOptions` anymore, it's just something
 that encapsulates the `Map` of `Command` and the help description.
 So it can be modelled by a record like this:
@@ -236,4 +216,24 @@ record CommandRegistry(Map<String, Command> commandMap, String help) {
     return commandMap.get(option);
   }
 }
+```
+
+```mermaid
+classDiagram
+class CommandRegistryBuilder {
+  registerOptions(List~String~ options, String description, Consumer~Config~ action)
+  toRegistry() CommandRegistry
+}
+class CommandRegistry {
+  <<record>>
+  String help
+  command(String option) Command
+}
+class Command {
+  <<record>>
+  String name
+  Consumer~Config~ action
+}
+CommandRegistryBuilder ..> CommandRegistry : creates
+CommandRegistry --> "1..*" Command
 ```
