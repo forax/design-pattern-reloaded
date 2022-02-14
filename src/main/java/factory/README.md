@@ -5,6 +5,28 @@ each time the function is called.
 
 Let's take an example, we have, at least, two kinds of `Vehicle` a `Car` and a `Bus` both takes a `Color` as parameter.
 
+```mermaid
+classDiagram
+class Vehicle {
+  <<interface>>
+}
+class Car {
+  <<record>>
+}
+class Bus {
+  <<record>>
+}
+class Color {
+  <<enumeration>>
+  RED
+  BLUE
+}
+Vehicle <|-- Car
+Vehicle <|-- Bus
+Car --> "1" Color
+Bus --> "1" Color
+```
+
 ```java
 enum Color { RED, BLUE }
 interface Vehicle { }
