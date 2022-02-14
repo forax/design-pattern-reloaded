@@ -17,7 +17,7 @@ An exchange is able to process orders and group the rejected orders by `accountI
 An order is rejected if the exchange has no enough stock to process a BUY order,
 here the last BUY order can not be processed because the exchange has not 3 000 stocks of FOOGL.
 ```java
-   record Order(Kind kind, int quantity, String tick, int accountId) {
+  record Order(Kind kind, int quantity, String tick, int accountId) {
     enum Kind { BUY, SELL }
   }
 

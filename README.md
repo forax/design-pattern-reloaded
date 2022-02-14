@@ -9,7 +9,7 @@ but also emphasis immutability when necessary.
 - [adapter](src/main/java/adapter) to see an object from one interface as one from another interface
 - [builder](src/main/java/builder) constructs objects by name instead of by position
 - [chain of responsibility](src/main/java/chainofresponsibility) constructs a pipeline of objects that handle a request
-- [command](src/main/java/command), objects that are an action
+- [command](src/main/java/command), objects that are actions
 - [decorator](src/main/java/decorator) dynamically adds behavior to an existing object
 - [factory](src/main/java/factory) abstracts the creation of objects
 - [memoizer](src/main/java/memoizer) caches the result of a computation to avoid multiple re-computations of the same value
