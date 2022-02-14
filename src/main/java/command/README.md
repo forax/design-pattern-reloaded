@@ -87,8 +87,8 @@ correspond to the same command on the command line.
 ```mermaid
 classDiagram
 class Command {
-  +String name()
-  +Consumer~Config~ action()
+  String name
+  Consumer~Config~ action
 }
 ```
 
