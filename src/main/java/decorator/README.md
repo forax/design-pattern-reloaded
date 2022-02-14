@@ -22,6 +22,21 @@ record SimpleCoffee(long cost) implements Coffee {
 }
 ```
 
+```mermaid
+classDiagram
+class Coffee {
+  <<interface>>
+  long cost()
+  String ingredients()
+}
+class SimpleCoffee {
+  <<record>>
+  long cost
+  String ingredients()
+}
+Coffee <|.. SimpleCoffee
+```
+
 Let say we now want to represent a coffee with milk, this is a `Coffee` so it should implement the interface
 `Coffee`, it's cost is the cost of a simple coffee plus 50 cents and the ingredients is coffee and milk.
 
