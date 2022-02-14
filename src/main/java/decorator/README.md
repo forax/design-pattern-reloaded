@@ -13,15 +13,6 @@ interface Coffee {
 
 We can write a simple implementation using a record.
 
-```java
-record SimpleCoffee(long cost) implements Coffee {
-  @Override
-  public String ingredients() {
-    return "Coffee";
-  }
-}
-```
-
 ```mermaid
 classDiagram
 class Coffee {
@@ -35,6 +26,15 @@ class SimpleCoffee {
   String ingredients()
 }
 Coffee <|.. SimpleCoffee
+```
+
+```java
+record SimpleCoffee(long cost) implements Coffee {
+  @Override
+  public String ingredients() {
+    return "Coffee";
+  }
+}
 ```
 
 Let say we now want to represent a coffee with milk, this is a `Coffee` so it should implement the interface
