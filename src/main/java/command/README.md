@@ -193,7 +193,7 @@ static CommandRegistry commandRegistry() {
 
 ```mermaid
 classDiagram
-class CommandRegistry.Builder {
+class CommandRegistryBuilder {
   registerOptions(List~String~ options, String description, Consumer~Config~ action)
   toRegistry() CommandRegistry
 }
@@ -207,7 +207,7 @@ class Command {
   String name
   Consumer~Config~ action
 }
-CommandRegistry.Builder ..> Command : creates
+CommandRegistryBuilder ..> CommandRegistry : creates
 CommandRegistry --> "1..*" Command
 ```
 
