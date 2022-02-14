@@ -86,11 +86,17 @@ correspond to the same command on the command line.
 
 ```mermaid
 classDiagram
+class CommandRegistry {
+  registerOptions(List~String~ options, String description, Consumer~Config~ action)
+  command(String option) Command
+  help() String
+}
 class Command {
   <<record>>
   String name
   Consumer~Config~ action
 }
+CommandRegistry --> "1..*" Command
 ```
 
 The `CommandRegitry` store the association between an option as a String and the corresponding `Command`
