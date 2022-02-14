@@ -84,6 +84,14 @@ The idea is to see an action, here changing on field of the configuration from f
 as an object. Here, our record `Command` also store a `name` to be used to detect if several options
 correspond to the same command on the command line.
 
+```mermaid
+classDiagram
+class Command {
+  +String name()
+  +Consumer~Config~ action()
+}
+```
+
 The `CommandRegitry` store the association between an option as a String and the corresponding `Command`
 and also the help description.
 
