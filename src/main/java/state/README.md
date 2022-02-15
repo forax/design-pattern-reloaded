@@ -39,21 +39,11 @@ System.out.println(cart.info());
 Represented as an automata, there are 3 states, `CREATED`, `PAYED`, `SHIPPED` and
 3 actions (transition) `add`, `buy` and `ship`.
 
-```
-            -> buy -> PAYED -> ship -> SHIPPED
-           |
-  CREATED--|
-     ^     |
-     |      -> add --
-     |              |
-     ----------------
-```
-
 ```mermaid
 flowchart LR
-  CREATED -- buy --> PAYED
-  PAYED -- ship --> SHIPPED
-  CREATED -- add --> CREATED
+  CREATED -- buy() --> PAYED
+  PAYED -- ship() --> SHIPPED
+  CREATED -- add() --> CREATED
 ```
 
 ## An implementation with an enum
