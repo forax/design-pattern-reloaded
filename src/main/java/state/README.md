@@ -6,6 +6,25 @@ it's often easier to read the code if each state is its own object.
 Let say there is a cart, I can add article to it, then I will pay for all the articles in it then
 I will ship the articles.
 
+```mermaid
+classDiagram
+class Article {
+  <<record>>
+  String name
+  long price
+}
+class CreditCard {
+  <<record>>
+  String name
+  String id
+}
+class Address {
+  <<record>>
+  String address
+  String country
+}
+```
+
 Here is an example of use (`info()` display the values of the state)
 ```java
 var cart = new Cart();
@@ -33,6 +52,32 @@ Represented as an automata, there are 3 states, `CREATED`, `PAYED`, `SHIPPED` an
 ## An implementation with an enum
 
 One naive implementation is to use an enum to represent the different states
+
+```mermaid
+classDiagram
+class Article {
+}
+class CreditCard {
+}
+class Address {
+}
+class State {
+ <<enumeration>>
+ CREATED
+ PAYED
+ SHIPPED
+}
+class Cart {
+  add(Article article)
+  buy(CreditCard creditCard)
+  ship(Address address)
+  info() String
+}
+Cart --> "1" State : state
+Cart --> "0..*" Article : article
+Cart --> "0..1" Address : address
+```
+
 ```java
 class Cart {
   private enum State { CREATED, PAYED, SHIPPED }
