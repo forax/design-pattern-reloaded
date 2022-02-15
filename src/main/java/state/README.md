@@ -68,7 +68,7 @@ class Cart {
   info() String
 }
 Cart --> "1" State : state
-Cart --> "0..*" Article : article
+Cart --> "0..*" Article : articles
 Cart --> "0..1" Address : address
 ```
 
@@ -122,6 +122,39 @@ and it makes all values mutable.
 The idea of the state pattern is that each state is represented by a different classes
 and all transitions are represented by pure functions, the mutable part is dealt in `Cart`
 by re-writing the field `state` so each implementation of the interface `State` can be immutable.
+
+```mermaid
+classDiagram
+class State {
+ <<interface>>
+ add(Article article)
+ buy(CreditCard creditCard)
+ ship(Address address)
+}
+class Created {
+  <<record>>
+}
+class Payed {
+  <<record>>
+}
+class Shipped {
+  <<record>>
+}
+class Cart {
+  add(Article article)
+  buy(CreditCard creditCard)
+  ship(Address address)
+  info() String
+}
+Created <|.. State
+Payed <|.. State
+Shipped <|.. State
+Cart --> "1" State : state
+Created --> "0..*" Article : articles
+Payed --> "0..*" Article : articles
+Shipped --> "0..*" Article : articles
+Shipped --> "0..1" Address : address
+```
 
 ```java
 class Cart {
