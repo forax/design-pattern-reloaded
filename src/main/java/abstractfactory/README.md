@@ -8,6 +8,22 @@ record Bus(String color) implements Vehicle { }
 record Car() implements Vehicle { }
 ```
 
+```mermaid
+classDiagram
+class Vehicle {
+  <<interface>>
+}
+class Car {
+  <<record>>
+}
+class Bus {
+  <<record>>
+  String color
+}
+Vehicle <|.. Car
+Vehicle <|.. Bus
+```
+
 ## Static abstract factory
 
 And we want to create a `Vehicle` from a string, "bus" for a `Bus` and "car" for a `Car`,
@@ -62,6 +78,18 @@ public class Registry {
         .get();
   }
 }
+```
+
+```mermaid
+classDiagram
+class Registry {
+  register(String name, Supplier~Vehicle~ supplier)
+  create(String name) Vehicle
+}
+class Vehicle {
+  <<interface>>
+}
+Registry ..> Vehicle : creates
 ```
 
 The registry is first setup using the method `register` to adds the association, then the method `create()`
