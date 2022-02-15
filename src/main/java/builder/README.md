@@ -30,7 +30,7 @@ var spaceship = new SpaceshipBuilder()
 A builder is a mutable class that allows to initialize an object by name.
 All the intermediary methods return the builder itself (`this`) so the method calls can be chained. 
 
-``mermaid
+```mermaid
 classDiagram
 class Spaceship {
   <<record>>
