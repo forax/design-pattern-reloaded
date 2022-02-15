@@ -83,7 +83,7 @@ class CarHauler {
 Vehicle <|.. Car
 Vehicle <|.. CarHauler
 CarHauler --> "0..*" Car : cars
-Vehicle ..> VehicleVisitor: delegates
+Vehicle ..> Visitor: delegates
 ```
 
 ```java
