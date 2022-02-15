@@ -44,6 +44,28 @@ record FileLogger(Level level, Logger logger) implements Logger {
 }
 ```
 
+```mermaid
+classDiagram
+class Logger {
+  <<interface>>
+  log(Level messageLevel, String message)
+}
+class ConsoleLogger {
+  <<record>>
+  Level level
+  void log(Level messageLevel, String message)
+}
+class FileLogger {
+  <<record>>
+  Level level
+  void log(Level messageLevel, String message)
+}
+ConsoleLogger <|.. Logger
+FileLogger <|.. Logger
+ConsoleLogger --> Logger : logger
+FileLogger --> Logger : logger
+```
+
 And use the different loggers by creating a linked list of loggers
 ```java
 static void main(String[] args) {
