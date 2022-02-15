@@ -56,7 +56,18 @@ It has two kind of methods
   with the states updated
 - final operations that stop the processing, here `orElseThrow()` that returns the value or reports the exceptions.
 
-So `validateUser()` can be written that way
+```mermaid
+classDiagram
+class Validator~V~ {
+  <<record>>
+  V value
+  Error error
+  check(Predicate~V~ validation, String message) Validator~V~
+  orElseThrow() V
+}
+```
+
+With that `validateUser()` can be written that way
 ```java
 public static User validateUser(User user) {
   return new Validator<>(user, null)
