@@ -59,10 +59,17 @@ interface Logger2 {
 }
 ```
 
+In terms of UML diagram, the lambda inside adapt acts as an implementation of `Logger`
+that delegates its implementation to `Logger2`
+
 ```mermaid
 classDiagram
 class Logger {
   <<interface>>
+  log(String message);
+}
+class LoggerLambda {
+  <<lambda>>
   log(String message);
 }
 class Logger2 {
@@ -70,7 +77,8 @@ class Logger2 {
   log(Level level, String message)
   adapt(Level level) Logger
 }
-Logger2 ..> Logger : adapt
+Loggerlambda <|.. Logger
+LoggerLambda --> Logger2
 ```
 
 and we can call `adapt()` directly on an instance of `Logger2`
