@@ -83,7 +83,7 @@ public class Registry {
 ```mermaid
 classDiagram
 class Registry {
-  register(String name, Supplier~Vehicle~ supplier)
+  register(String name, () -> Vehicle supplier)
   create(String name) Vehicle
 }
 class Vehicle {
