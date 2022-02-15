@@ -41,9 +41,9 @@ Represented as an automata, there are 3 states, `CREATED`, `PAYED`, `SHIPPED` an
 
 ```mermaid
 flowchart LR
-  CREATED -- buy() --> PAYED
-  PAYED -- ship() --> SHIPPED
-  CREATED -- add() --> CREATED
+  CREATED -- buy --> PAYED
+  PAYED -- ship --> SHIPPED
+  CREATED -- add --> CREATED
 ```
 
 ## An implementation with an enum
