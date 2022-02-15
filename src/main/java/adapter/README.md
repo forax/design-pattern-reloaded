@@ -75,10 +75,9 @@ class LoggerLambda {
 class Logger2 {
   <<interface>>
   log(Level level, String message)
-  adapt(Level level) Logger
 }
 LoggerLambda <|.. Logger
-LoggerLambda --> Logger2
+LoggerLambda --> Logger2 : delegates
 ```
 
 and we can call `adapt()` directly on an instance of `Logger2`
