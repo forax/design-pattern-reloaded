@@ -203,6 +203,18 @@ If we take a look to the initial code, there was already an observer hidden betw
 instead of using a list to collect the rejected orders, we should also apply the same
 principle and declare an observer of the rejected orders.
 
+```mermaid
+classDiagram
+class OrderObserver {
+  <<interface>>
+  rejected(Order order)
+}
+class StockExchange {
+  process(List~Order~ orders) List~Order~
+}
+StockExchange ..> "*" Order : uses
+```
+
 ```java
 interface OrderObserver {
   void rejected(Order order);
