@@ -3,7 +3,7 @@
 The point of the observer pattern is to decouple two pieces of code by using an interface in the middle.
 
 Let say we want to model a `StockExchange` that have a balance and contains several quantities of stocks.
-By example, here the balance is 5 000 and wa have 1 000 stocks of FOOGL and 2 000 stocks of PAPL.
+For example, here the balance is 5 000 and wa have 1 000 stocks of FOOGL and 2 000 stocks of PAPL.
 ```java
   static void main(String[] args) {
     var stockExchange = new StockExchange();
@@ -11,6 +11,23 @@ By example, here the balance is 5 000 and wa have 1 000 stocks of FOOGL and 2 00
     stockExchange.setStockQuantity("FOOGL", 1_000);
     stockExchange.setStockQuantity("PAPL", 2_000);
     System.out.println(stockExchange);
+```
+
+```mermaid
+classDiagram
+class Order {
+  <<record>>
+  Kind kind
+  int quantity
+  String tick
+  int accountId
+}
+class StockExchange {
+  setBalance(int balance)
+  setStockQuantity(String tick, int quantity)
+  process(List~Order~ orders) List~Order~
+}
+StockExchange ..> Order : process
 ```
 
 An exchange is able to process orders and group the rejected orders by `accountId`.
