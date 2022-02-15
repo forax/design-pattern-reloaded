@@ -152,10 +152,11 @@ of the implementations so `SimpleCoffee`, `WithMilk` and `WithSprinkles` can be 
 
 ## Relation with the Proxy Pattern
 
-A proxy is a decorator with a different intent, it's the idea to intercept method calls to do cross-cutting operations
+A proxy is a decorator, so it implements an interface and delegate to an instance of that interface 
+but it has a different intent, the idea to intercept method calls to do cross-cutting operations
 like logging, authentication, caching, etc.
 
-Here is an example of a Coffee that logs its cost.
+Here is an example of a proxy, a Coffee that logs its cost.
 
 ```java
 record LoggingCoffee(Coffee coffee) {
