@@ -5,6 +5,22 @@ The aim of Visitor Pattern is to be able to specify operations on a hierarchy of
 ## Double dispatch
 
 Let say we have the following closed/sealed hierarchy
+```mermaid
+classDiagram
+class Vehicle {
+  <<interface>>
+}
+class Car {
+ <<record>>
+}
+class CarHauler {
+  <<record>>
+}
+Car <|.. Vehicle
+CarHauler <|.. Vehicle
+CarHauler --> "0..*" Car : cars
+```
+
 ```java
 sealed interface Vehicle permits Car, CarHauler { }
 record Car() implements Vehicle { }
