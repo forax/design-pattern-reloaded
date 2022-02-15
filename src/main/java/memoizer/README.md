@@ -24,7 +24,7 @@ abstract class Memoizer<V, R> {
 }
 ```
 
-``mermaid
+```mermaid
 classDiagram
 class Memoizer~V,R~ {
   <<abstract>>
