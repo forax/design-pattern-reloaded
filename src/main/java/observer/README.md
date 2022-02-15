@@ -114,6 +114,19 @@ interface BalanceObserver {
 }
 ```
 
+```mermaid
+classDiagram
+class BalanceObserver {
+  <<interface>>
+  balanceChanged(int newValue)
+}
+class StockExchange {
+  StockExchange(BalanceObserver balanceObserver)
+  process(List~Order~ orders) List~Order~
+}
+StockExchange --> "1" BalanceObserver : balanceObserver
+```
+
 We take the `BalanceObserver` at creation and called it each time the balance changed
 ```java
 class StockExchange {
