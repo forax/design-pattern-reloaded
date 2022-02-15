@@ -77,7 +77,7 @@ class Logger2 {
   log(Level level, String message)
   adapt(Level level) Logger
 }
-Loggerlambda <|.. Logger
+LoggerLambda <|.. Logger
 LoggerLambda --> Logger2
 ```
 
