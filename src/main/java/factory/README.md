@@ -67,6 +67,17 @@ interface VehicleFactory {
 }
 ```
 
+```mermaid
+classDiagram
+class Vehicle {
+  <<interface>>
+}
+class VehicleFactory {
+  create(Color color) Vehicle
+}
+VehicleFactory ..> Vehicle : creates
+```
+
 Because `VehicleFactory` is a functional interface, it can be initialized that way to create cars.
 ```java
 VehicleFactory carFactory = Car::new;
