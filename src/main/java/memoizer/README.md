@@ -24,6 +24,15 @@ abstract class Memoizer<V, R> {
 }
 ```
 
+``mermaid
+classDiagram
+class Memoizer~V,R~ {
+  <<abstract>>
+  memoize(V value) R
+  #compute(V value) R
+}
+```
+
 This is how it can be used:
 ```java
 var memoizer = new Memoizer<Integer, Integer>() {
