@@ -60,6 +60,15 @@ For our example, we want a code like this
 For that, we first create a functional interface (`Finder`) that either return a value or no value
 (we use an `Optional` here) and an instance method `or` able to combine the result of two finders.
 
+```mermaid
+classDiagram
+class Finder {
+  <<interface>>
+  find() Optional~String~
+  or(Finder finder) Finder
+}
+```
+
 ```java
 @FunctionalInterface
 public interface Finder {
