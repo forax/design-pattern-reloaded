@@ -110,3 +110,11 @@ final class Memoizer<V, R> {
 }
 ```
 
+```mermaid
+classDiagram
+class Memoizer~V,R~ {
+  Memoizer((V, (V, R)) -> R biFunction)
+  memoize(V value) R
+}
+```
+
