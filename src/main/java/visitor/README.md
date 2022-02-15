@@ -125,6 +125,14 @@ as methods of the interface.
 In that case, `Visitor` becomes a class with a method `when` that associate for a class the function to call
 (as a lambda) and a method `call` that for an instance of a `Vehicle` dynamically find its class and
 calls the corresponding function.
+```mermaid
+classDiagram
+class Visitor~R~ {
+  when(Class~T~ type, T -> R fun) Visitor~R~
+  call(Object receiver) R
+}
+```
+
 ```java
 static int count(Vehicle vehicle) {
   var visitor = new Visitor<Integer>();
