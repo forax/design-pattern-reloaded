@@ -221,7 +221,7 @@ record CommandRegistry(Map<String, Command> commandMap, String help) {
 ```mermaid
 classDiagram
 class CommandRegistryBuilder {
-  registerOptions(List~String~ options, String description, Consumer~Config~ action)
+  registerOptions(List~String~ options, String description, (Config) -> void action)
   toRegistry() CommandRegistry
 }
 class CommandRegistry {
@@ -232,7 +232,7 @@ class CommandRegistry {
 class Command {
   <<record>>
   String name
-  Consumer~Config~ action
+  (Config) -> void action
 }
 CommandRegistryBuilder ..> CommandRegistry : creates
 CommandRegistry --> "1..*" Command
