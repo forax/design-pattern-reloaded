@@ -60,6 +60,31 @@ The method acts as a trampoline, when called on a vehicle with the visitor as pa
 the right method of the `Visitor`.
 
 So the hierarchy of vehicles needs to be modified to add the method `accept()`. 
+
+```mermaid
+classDiagram
+class Visitor~R~ {
+  <<interface>>
+  visitCar(Car car) R
+  visitCarHauler(CarHauler carHauler) R
+}
+class Vehicle {
+  <<interface>>
+  R accept(Visitor~R~ visitor)
+}
+class Car {
+ <<record>>
+ R accept(Visitor~R~ visitor)
+}
+class CarHauler {
+  <<record>>
+  R accept(Visitor~R~ visitor)
+}
+Vehicle <|.. Car
+Vehicle <|.. CarHauler
+CarHauler --> "0..*" Car : cars
+```
+
 ```java
 sealed interface Vehicle permits Car, CarHauler {
   <R> R accept(Visitor<? extends R> visitor);
