@@ -125,6 +125,12 @@ by re-writing the field `state` so each implementation of the interface `State` 
 
 ```mermaid
 classDiagram
+class Cart {
+  add(Article article)
+  buy(CreditCard creditCard)
+  ship(Address address)
+  info() String
+}
 class State {
  <<interface>>
  add(Article article)
@@ -139,12 +145,6 @@ class Payed {
 }
 class Shipped {
   <<record>>
-}
-class Cart {
-  add(Article article)
-  buy(CreditCard creditCard)
-  ship(Address address)
-  info() String
 }
 Created <|.. State
 Payed <|.. State
