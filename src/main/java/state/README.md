@@ -136,6 +136,7 @@ class State {
  add(Article article)
  buy(CreditCard creditCard)
  ship(Address address)
+ info() String
 }
 class Created {
   <<record>>
