@@ -210,9 +210,9 @@ class OrderObserver {
   rejected(Order order)
 }
 class StockExchange {
-  process(List~Order~ orders) List~Order~
+  process(List~Order~ orders, OrderObserver orderObserver) List~Order~
 }
-StockExchange ..> "*" OrderObserver : uses
+StockExchange ..> OrderObserver : uses
 ```
 
 ```java
