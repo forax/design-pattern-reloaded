@@ -87,14 +87,14 @@ correspond to the same command on the command line.
 ```mermaid
 classDiagram
 class CommandRegistry {
-  registerOptions(List~String~ options, String description, Consumer~Config~ action)
+  registerOptions(List~String~ options, String description, (Config) -> void action)
   command(String option) Command
   help() String
 }
 class Command {
   <<record>>
   String name
-  Consumer~Config~ action
+  (Config) -> void action
 }
 CommandRegistry --> "1..*" Command
 ```
