@@ -212,7 +212,7 @@ class OrderObserver {
 class StockExchange {
   process(List~Order~ orders) List~Order~
 }
-StockExchange ..> "*" Order : uses
+StockExchange ..> "*" OrderObserver : uses
 ```
 
 ```java
