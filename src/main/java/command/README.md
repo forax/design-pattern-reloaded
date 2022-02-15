@@ -96,7 +96,7 @@ class Command {
   String name
   (Config) -> void action
 }
-CommandRegistry --> "1..*" Command
+CommandRegistry --> "0..*" Command
 ```
 
 The `CommandRegitry` store the association between an option as a String and the corresponding `Command`
