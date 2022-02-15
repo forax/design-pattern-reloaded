@@ -73,6 +73,7 @@ class Vehicle {
   <<interface>>
 }
 class VehicleFactory {
+  <<interface>>
   create(Color color) Vehicle
 }
 VehicleFactory ..> Vehicle : creates
