@@ -21,10 +21,6 @@ enum Level { WARNING, ERROR }
 
 interface Logger2 {
   void log(Level level, String message);
-
-  default Logger adapt(Level level) {
-    return msg -> log(level, msg);
-  }
 }
 ```
 
@@ -61,6 +57,20 @@ interface Logger2 {
     return msg -> log(level, msg);
   }
 }
+```
+
+```mermaid
+classDiagram
+class Logger {
+  <<interface>>
+  log(String message);
+}
+class Logger2 {
+  <<interface>>
+  log(Level level, String message)
+  adapt(Level level) Logger
+}
+Logger2 ..> Logger : adapt
 ```
 
 and we can call `adapt()` directly on an instance of `Logger2`
