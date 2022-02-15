@@ -16,8 +16,8 @@ class Car {
 class CarHauler {
   <<record>>
 }
-Car <|.. Vehicle
-CarHauler <|.. Vehicle
+Vehicle <|.. Car
+Vehicle <|.. CarHauler
 CarHauler --> "0..*" Car : cars
 ```
 
