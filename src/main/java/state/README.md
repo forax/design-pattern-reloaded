@@ -55,12 +55,6 @@ One naive implementation is to use an enum to represent the different states
 
 ```mermaid
 classDiagram
-class Article {
-}
-class CreditCard {
-}
-class Address {
-}
 class State {
  <<enumeration>>
  CREATED
