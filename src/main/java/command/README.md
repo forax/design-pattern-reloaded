@@ -137,11 +137,11 @@ static CommandRegistry commandRegistry() {
 }
 ```
 
-And we modify the `main` a little bit,  to ask for the `CommmandRegistry` ans pass it as parameter
+And we modify the `main` a little, to ask for the `CommmandRegistry` and pass it as parameter
 of the method `config`.
 ```java
 var registry = commandRegistry();
-var config = config(registry, List.of(args));```
+var config = config(registry, List.of(args));
 System.out.println(config);
 if (config.showHelp) {
   System.out.println(registry.help());
