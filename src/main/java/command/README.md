@@ -133,7 +133,7 @@ static CommandRegistry commandRegistry() {
   registry.registerOptions(List.of("--long", "-l"), "long form", c -> c.longForm = true);
   registry.registerOptions(List.of("--inode", "-i"), "show inodes", c -> c.showInode = true);
   registry.registerOptions(List.of("--help", "-h"), "show this help", c -> c.showHelp = true);
-  return manager;
+  return registry;
 }
 ```
 
