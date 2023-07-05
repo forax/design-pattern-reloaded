@@ -1,9 +1,9 @@
 # Builder pattern
 
-By default, when creating an instance, the arguments of the constructor are pass in order,
+By default, when creating an instance, the arguments of the constructor are passed in order,
 the association between an argument and a parameter depends on the position of the argument.
 
-By example, if we define a `Spaceship`
+For example, if we define a `Spaceship`
 ```java
 record Spaceship(String name, String captain, int torpedoes, int length) {}
 ```
@@ -14,9 +14,9 @@ var spaceship = new Spaceship("foo", 'baz', 3, 4);
 ```
 
 The problem is that it's hard to know when reading the last line, which component/property of the record
-is initialized with which value, apart taking a look to the definition of the record which can be in another file.
+is initialized with which value, apart from taking a look at the definition of the record which can be in another file.
 
-A builder improve the readability of the code by introducing method calls (that have a name)
+A builder improves the readability of the code by introducing method calls (that have a name)
 to initialize each component.
 ```java
 var spaceship = new SpaceshipBuilder()
@@ -82,13 +82,13 @@ public class SpaceshipBuilder {
 }
 ```
 
-The main issue with this pattern is that it requires usually quite a lot of code and that IDEs does not track
+The main issue with this pattern is that it requires usually quite a lot of code and that IDEs do not track
 the fact that if a component of the record is renamed, the method of the builder should be renamed too.
 
 
 ## A generic builder
 
-Using reflection, it is possible to implement a generic builder that avoid those pitfalls
+Using reflection, it is possible to implement a generic builder that avoids those pitfalls
 at the price of making the code slower
 
 ```java
