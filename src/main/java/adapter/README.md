@@ -1,6 +1,6 @@
 # Adapter Pattern
 
-Let say we have a simple interface like a `Logger`
+Let's say we have a simple interface like a `Logger`
 
 ```java
 interface Logger {
@@ -25,7 +25,7 @@ interface Logger2 {
 ```
 
 and we want to use that new interface `Logger2` with the method `sayHello()`.
-Obviously, we can not directly call `sayHello` with a `Logger2`, we need to do an adaptation work.
+Obviously, we can not directly call `sayHello` with a `Logger2`, we need to do adaptation work.
 
 ## Adapter when we do not control Logger2
 
