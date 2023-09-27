@@ -63,7 +63,7 @@ allows creating instances of open hierarchy classes from parameters.
 
 A dynamic abstract factory is an abstract factory (also called a **Registry**) that lets you register
 [factory](../factory) for a value (here a String) and then calls the factory for that value.
-It uses a hashtable/dictionary (a `HashMap) to associate the value to a factory (here a `Supplier`).
+It uses a hashtable/dictionary (a `HashMap`) to associate the value to a factory (here a `Supplier`).
 
 ```java
 public class Registry {
