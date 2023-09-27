@@ -1,5 +1,5 @@
 # Design Patterns Reloaded
-Implementation of some design patterns in Java 17,
+Implementation of some design patterns in Java 21,
 some of them are from the GoF, others are the one you usually see in programs.
 
 Like most of the GoF patterns, the implementations use delegation instead of inheritance,
@@ -21,7 +21,7 @@ but also emphasis immutability when necessary.
 - [state](src/main/java/state) delegates API implementation to an internal state object
 - [template_method](src/main/java/templatemethod) define a behavior with a generic part and a specific part 
 - [typing](src/main/java/typing), 3 kinds of relations between a static type and a runtime class
-- [visitor](src/main/java/visitor), specify operations on a hierarchy of types outside that hierarchy
+- [visitor / pattern matching](src/main/java/visitor), specify operations on a hierarchy of types outside that hierarchy
 
 
 ## Old materials

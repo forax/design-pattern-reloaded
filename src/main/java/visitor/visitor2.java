@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public interface visitor2 {
-  /*not sealed*/ interface Vehicle { }
+  interface Vehicle { }
   record Car() implements Vehicle { }
   record CarHauler(List<Car> cars) implements Vehicle {}
   

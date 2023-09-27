@@ -166,14 +166,14 @@ that takes an `Object`. This is done by done a dynamic cast (the method referenc
 
 ## Pattern matching
 
-The visitor pattern is a way to a switch on a hierarchy of classes, starting with Java 17, as a preview feature
-we can now do a switch on an interface.
+The visitor pattern is a way to a switch on a hierarchy of classes, starting with Java 21 we can now do a switch
+on a sealed interface.
 
 ```java
 static int count(Vehicle vehicle) {
-  return switch(vehicle) {
+  return switch (vehicle) {
     case Car car -> 1;
-    case CarHauler carHauler -> 1 + carHauler.cars().stream().mapToInt(car -> count(car)).sum());
+    case CarHauler carHauler -> 1 + carHauler.cars().stream().mapToInt(car -> count(car)).sum();
   };
 }
 ```
@@ -181,12 +181,14 @@ static int count(Vehicle vehicle) {
 Like with the double dispatch, this requires the hierarchy to be sealed otherwise the compiler do not know
 if the cases cover all possible subtypes.
 
-In the future, Java will allow to access the components of the matched types without breaking the encapsulation
+Java also allow to match all the record components using a record pattern
 ```java
-static int count(Vehicle vehicle) {  /* provisional syntax */
-  return switch(vehicle) {
-    case Car _ -> 1;
-    case CarHauler(var cars) -> 1 + cars.stream().mapToInt(car -> count(car)).sum());
+static int count(Vehicle vehicle) {
+  return switch (vehicle) {
+    case Car() -> 1;
+    case CarHauler(List<Car> cars) -> 1 + cars.stream().mapToInt(car -> count(car)).sum();
   };
 }
 ```
+
+In the future, this capability will be extended to match not only records but also classes
